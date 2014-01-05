@@ -519,5 +519,10 @@ footer a:hover {
 }
 
 .affix {
-    position: fixed;
+    width: 200px;
+    top: 20px;
+}
+
+.affix-top {
+    width: 200px;
 }

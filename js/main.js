@@ -6,5 +6,12 @@ $(document).ready(function () {
             $('#page-content').text('Page ' + page);
         }
     });
+
+    $('#navigation').affix({
+        offset: {
+            top: 200
+        }
+    });
+
 });
 
