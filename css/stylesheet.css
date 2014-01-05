@@ -283,6 +283,7 @@ form {
     font-size: 15px;
     font-weight: bold;
     color: #474747;
+    margin-bottom: 15px;
 }
 
 h4:before {
@@ -525,4 +526,11 @@ footer a:hover {
 
 .affix-top {
     width: 200px;
+}
+
+.sidenav {
+    padding-top:    10px;
+    padding-bottom: 10px;
+    background-color: #f7f5fa;
+    border-radius: 5px;
 }
