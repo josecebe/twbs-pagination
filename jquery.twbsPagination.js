@@ -193,10 +193,10 @@
             });
         },
 
-        equals: function (oldArray, newArray) {
+        equals: function (arr1, arr2) {
             var i = 0;
-            while ((i < oldArray.length) || (i < newArray.length)) {
-                if (oldArray[i] !== newArray[i]) {
+            while ((i < arr1.length) || (i < arr2.length)) {
+                if (arr1[i] !== arr2[i]) {
                     return false;
                 }
                 i++;
