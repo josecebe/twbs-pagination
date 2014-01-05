@@ -63,7 +63,10 @@
                 this.$element.append(this.$listContainer);
             }
 
-            this.show(this.options.startPage);
+            this.render(this.currentPages);
+            this.setupEvents();
+
+            this.$element.trigger('page', this.options.startPage);
         },
 
         show: function (page) {
