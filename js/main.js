@@ -13,5 +13,10 @@ $(document).ready(function () {
         }
     });
 
+    $('#visible-pages-example').twbsPagination({
+        totalPages: 35,
+        visiblePages: 10
+    });
+
 });
 
