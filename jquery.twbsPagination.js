@@ -141,17 +141,24 @@
         getPages: function (currentPage) {
             var pages = [];
 
-            var startPage;
-            var section = parseInt(currentPage / this.options.visiblePages, 10);
-            if (currentPage % this.options.visiblePages === 0) {
-                startPage = (section - 1) * this.options.visiblePages + 1;
-            } else {
-                startPage = section * this.options.visiblePages + 1;
+            var half = Math.floor(this.options.visiblePages / 2);
+            var start = currentPage - half + 1 - this.options.visiblePages % 2;
+            var end = currentPage + half;
+
+            // handle boundary case
+            if (start <= 0) {
+                start = 1;
+                end = this.options.visiblePages;
+            }
+            if (end > this.options.totalPages) {
+                start = this.options.totalPages - this.options.visiblePages + 1;
+                end = this.options.totalPages;
             }
 
-            var endPage = Math.min(this.options.totalPages, (startPage + this.options.visiblePages) - 1);
-            for (var i = startPage; i <= endPage; i++) {
-                pages.push(i);
+            var itPage = start;
+            while (itPage <= end) {
+                pages.push(itPage);
+                itPage++;
             }
 
             return {"currentPage": currentPage, "numeric": pages};
