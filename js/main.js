@@ -1,7 +1,8 @@
 $(document).ready(function () {
     $('#pagination-demo').twbsPagination({
         totalPages: 35,
-        visiblePages: 8,
+        visiblePages: 7,
+        version: '1.1',
         onPageClick: function (event, page) {
             $('#page-content').text('Page ' + page);
         }
@@ -15,7 +16,8 @@ $(document).ready(function () {
 
     $('#visible-pages-example').twbsPagination({
         totalPages: 35,
-        visiblePages: 10
+        visiblePages: 10,
+        version: '1.1'
     });
 
 });

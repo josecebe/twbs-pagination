@@ -28,7 +28,17 @@
         init: function (options) {
             this.options = $.extend({}, this.options, options);
 
-            this.currentPages = this.getPages(this.options.startPage);
+            switch (this.options.version) {
+                case '1.0':
+                    this.currentPages = this.getPages_v_1_0(this.options.startPage);
+                    break;
+                case '1.1':
+                    this.currentPages = this.getPages_v_1_1(this.options.startPage);
+                    break;
+                default:
+                    this.currentPages = this.getPages_v_1_1(this.options.startPage);
+                    break;
+            }
 
             if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
                 throw new Error('Start page option is incorrect');
@@ -71,7 +81,18 @@
                 throw new Error('Page is incorrect.');
             }
 
-            this.render(this.getPages(page));
+            switch (this.options.version) {
+                case '1.0':
+                    this.render(this.getPages_v_1_0(page));
+                    break;
+                case '1.1':
+                    this.render(this.getPages_v_1_1(page));
+                    break;
+                default:
+                    this.render(this.getPages_v_1_1(page));
+                    break;
+            }
+
             this.setupEvents();
 
             this.$element.trigger('page', page);
@@ -135,7 +156,7 @@
             return itemContainer;
         },
 
-        getPages: function (currentPage) {
+        getPages_v_1_0: function (currentPage) {
             var pages = [];
 
             var startPage;
@@ -149,6 +170,32 @@
             var endPage = Math.min(this.options.totalPages, (startPage + this.options.visiblePages) - 1);
             for (var i = startPage; i <= endPage; i++) {
                 pages.push(i);
+            }
+
+            return {"currentPage": currentPage, "numeric": pages};
+        },
+
+        getPages_v_1_1: function (currentPage) {
+            var pages = [];
+
+            var half = Math.floor(this.options.visiblePages / 2);
+            var start = currentPage - half + 1 - this.options.visiblePages % 2;
+            var end = currentPage + half;
+
+            // handle boundary case
+            if (start <= 0) {
+                start = 1;
+                end = this.options.visiblePages;
+            }
+            if (end > this.options.totalPages) {
+                start = this.options.totalPages - this.options.visiblePages + 1;
+                end = this.options.totalPages;
+            }
+
+            var itPage = start;
+            while (itPage <= end) {
+                pages.push(itPage);
+                itPage++;
             }
 
             return {"currentPage": currentPage, "numeric": pages};
@@ -239,7 +286,8 @@
         next: 'Next',
         last: 'Last',
         paginationClass: 'pagination',
-        onPageClick: null
+        onPageClick: null,
+        version: '1.0'
     };
 
     $.fn.twbsPagination.Constructor = TwbsPagination;
