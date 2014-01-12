@@ -263,16 +263,14 @@
         var args = Array.prototype.slice.call(arguments, 1);
         var methodReturn;
 
-        var $set = this.each(function () {
-            var $this = $(this);
-            var data = $this.data('twbs-pagination');
-            var options = typeof option === 'object' && option;
+        var $this = $(this);
+        var data = $this.data('twbs-pagination');
+        var options = typeof option === 'object' && option;
 
-            if (!data) $this.data('twbs-pagination', (data = new TwbsPagination(this, options) ));
-            if (typeof option === 'string') methodReturn = data[ option ].apply(data, args);
-        });
+        if (!data) $this.data('twbs-pagination', (data = new TwbsPagination(this, options) ));
+        if (typeof option === 'string') methodReturn = data[ option ].apply(data, args);
 
-        return ( methodReturn === undefined ) ? $set : methodReturn;
+        return ( methodReturn === undefined ) ? $this : methodReturn;
     };
 
     $.fn.twbsPagination.defaults = {
@@ -287,7 +285,7 @@
         last: 'Last',
         paginationClass: 'pagination',
         onPageClick: null,
-        version: '1.0'
+        version: '1.1'
     };
 
     $.fn.twbsPagination.Constructor = TwbsPagination;
