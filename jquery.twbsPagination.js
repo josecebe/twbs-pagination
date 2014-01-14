@@ -28,8 +28,6 @@
         init: function (options) {
             this.options = $.extend({}, this.options, options);
 
-            this.currentPages = this.getPages(this.options.startPage);
-
             if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
                 throw new Error('Start page option is incorrect');
             }
@@ -38,9 +36,11 @@
                 throw new Error('Total pages option cannot be less 1 (one)!');
             }
 
-            if (!$.isNumeric(this.options.visiblePages) && !this.options.visiblePages) {
+            if (this.options.totalPages < this.options.visiblePages) {
                 this.options.visiblePages = this.options.totalPages;
             }
+
+            this.currentPages = this.getPages(this.options.startPage);
 
             if (this.options.onPageClick instanceof Function) {
                 this.$element.bind('page', this.options.onPageClick);
