@@ -17,7 +17,7 @@
 
     var TwbsPagination = function (element, options) {
         this.$element = $(element);
-        this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
+//        this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
         this.init(this.options);
     };
 
