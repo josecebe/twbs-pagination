@@ -67,10 +67,13 @@
             this.setupEvents();
 
             this.$element.trigger('page', this.options.startPage);
+            
+            return this;
         },
         
         destroy: function () {
             this.$element.empty();
+            return this;
         },
 
         show: function (page) {
@@ -82,6 +85,7 @@
             this.setupEvents();
 
             this.$element.trigger('page', page);
+            return this;
         },
 
         buildListItems: function (pages) {
