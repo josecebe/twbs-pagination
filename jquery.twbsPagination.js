@@ -68,6 +68,10 @@
 
             this.$element.trigger('page', this.options.startPage);
         },
+        
+        destroy: function () {
+            this.$element.empty();
+        },
 
         show: function (page) {
             if (page < 1 || page > this.options.totalPages) {
