@@ -7,14 +7,14 @@
 
     <link href="http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic" rel="stylesheet"
           type="text/css">
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/pygment_trac.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print"/>
 
     <script src="http://code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script src="js/jquery.twbsPagination.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 
@@ -65,12 +65,10 @@
                 <a id="demo" class="anchor" href="#demo"><span
                         class="octicon octicon-link"></span></a>Demo</h3>
 
-            <p>
-                <div id="page-content" class="well"></div>
-                <div class="text-center">
-                    <ul id="pagination-demo" class="pagination-sm"></ul>
-                </div>
-            </p>
+            <div id="page-content" class="well"></div>
+            <div class="text-center">
+                <ul id="pagination-demo" class="pagination-sm"></ul>
+            </div>
 
             <p>Here is corresponding piece of code:</p>
             <pre><code class="highlight">    $(<span class="s">'#pagination-demo'</span>).twbsPagination({
@@ -126,23 +124,6 @@
             <h3>
                 <a id="examples" class="anchor" href="#examples"><span
                         class="octicon octicon-link"></span></a>Examples</h3>
-
-            <h4>Versions</h4>
-
-            <p>Choose behaviour of method <code>getPages</code>. Try to following demos:</p>
-
-            <div class="text-center">
-                <ul id="pagination-demo-v1_0" class="pagination-sm"></ul>
-            </div>
-
-            <div class="text-center">VS</div>
-
-            <div class="text-center">
-                <ul id="pagination-demo-v1_1" class="pagination-sm"></ul>
-            </div>
-
-            <p>Download <a href="https://github.com/esimakin/twbs-pagination/releases/tag/v1.0">first</a> or
-                <a href="https://github.com/esimakin/twbs-pagination/releases/tag/v1.1">second</a>.</p>
 
             <h4>URL page link</h4>
 
@@ -200,7 +181,7 @@
         </section>
 
         <aside id="sidebar">
-            <div id="navigation">
+            <div id="navigation" data-spy="affix" data-offset-top="200">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active"><a href="#intro">Intro</a></li>
                     <li><a href="#demo">Demo</a>

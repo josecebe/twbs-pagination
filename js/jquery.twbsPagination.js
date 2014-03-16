@@ -28,18 +28,6 @@
         init: function (options) {
             this.options = $.extend({}, this.options, options);
 
-            switch (this.options.version) {
-                case '1.0':
-                    this.currentPages = this.getPages_v_1_0(this.options.startPage);
-                    break;
-                case '1.1':
-                    this.currentPages = this.getPages_v_1_1(this.options.startPage);
-                    break;
-                default:
-                    this.currentPages = this.getPages_v_1_1(this.options.startPage);
-                    break;
-            }
-
             if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
                 throw new Error('Start page option is incorrect');
             }
@@ -48,9 +36,11 @@
                 throw new Error('Total pages option cannot be less 1 (one)!');
             }
 
-            if (!$.isNumeric(this.options.visiblePages) && !this.options.visiblePages) {
+            if (this.options.totalPages < this.options.visiblePages) {
                 this.options.visiblePages = this.options.totalPages;
             }
+
+            this.currentPages = this.getPages(this.options.startPage);
 
             if (this.options.onPageClick instanceof Function) {
                 this.$element.bind('page', this.options.onPageClick);
@@ -73,7 +63,17 @@
                 this.$element.append(this.$listContainer);
             }
 
-            this.show(this.options.startPage);
+            this.render(this.currentPages);
+            this.setupEvents();
+
+            this.$element.trigger('page', this.options.startPage);
+            
+            return this;
+        },
+        
+        destroy: function () {
+            this.$element.empty();
+            return this;
         },
 
         show: function (page) {
@@ -81,21 +81,11 @@
                 throw new Error('Page is incorrect.');
             }
 
-            switch (this.options.version) {
-                case '1.0':
-                    this.render(this.getPages_v_1_0(page));
-                    break;
-                case '1.1':
-                    this.render(this.getPages_v_1_1(page));
-                    break;
-                default:
-                    this.render(this.getPages_v_1_1(page));
-                    break;
-            }
-
+            this.render(this.getPages(page));
             this.setupEvents();
 
             this.$element.trigger('page', page);
+            return this;
         },
 
         buildListItems: function (pages) {
@@ -156,26 +146,7 @@
             return itemContainer;
         },
 
-        getPages_v_1_0: function (currentPage) {
-            var pages = [];
-
-            var startPage;
-            var section = parseInt(currentPage / this.options.visiblePages, 10);
-            if (currentPage % this.options.visiblePages === 0) {
-                startPage = (section - 1) * this.options.visiblePages + 1;
-            } else {
-                startPage = section * this.options.visiblePages + 1;
-            }
-
-            var endPage = Math.min(this.options.totalPages, (startPage + this.options.visiblePages) - 1);
-            for (var i = startPage; i <= endPage; i++) {
-                pages.push(i);
-            }
-
-            return {"currentPage": currentPage, "numeric": pages};
-        },
-
-        getPages_v_1_1: function (currentPage) {
+        getPages: function (currentPage) {
             var pages = [];
 
             var half = Math.floor(this.options.visiblePages / 2);
@@ -240,10 +211,10 @@
             });
         },
 
-        equals: function (oldArray, newArray) {
+        equals: function (arr1, arr2) {
             var i = 0;
-            while ((i < oldArray.length) || (i < newArray.length)) {
-                if (oldArray[i] !== newArray[i]) {
+            while ((i < arr1.length) || (i < arr2.length)) {
+                if (arr1[i] !== arr2[i]) {
                     return false;
                 }
                 i++;
@@ -284,8 +255,7 @@
         next: 'Next',
         last: 'Last',
         paginationClass: 'pagination',
-        onPageClick: null,
-        version: '1.1'
+        onPageClick: null
     };
 
     $.fn.twbsPagination.Constructor = TwbsPagination;
