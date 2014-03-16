@@ -142,7 +142,7 @@
                     break;
             }
 
-            itemContainer.append(itemContent.attr('href', this.href(page)).text(itemText));
+            itemContainer.append(itemContent.attr('href', this.href(page)).html(itemText));
             return itemContainer;
         },
 
