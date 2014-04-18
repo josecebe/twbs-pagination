@@ -1,5 +1,5 @@
 /**
- * jQuery pagination plugin v1.0
+ * jQuery pagination plugin v1.1.1
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -40,8 +40,6 @@
                 this.options.visiblePages = this.options.totalPages;
             }
 
-            this.currentPages = this.getPages(this.options.startPage);
-
             if (this.options.onPageClick instanceof Function) {
                 this.$element.bind('page', this.options.onPageClick);
             }
@@ -57,20 +55,18 @@
 
             this.$listContainer.addClass(this.options.paginationClass);
 
-            this.$listContainer.append(this.buildListItems(this.currentPages.numeric));
-
             if (tagName !== 'UL') {
                 this.$element.append(this.$listContainer);
             }
 
-            this.render(this.currentPages);
+            this.render(this.getPages(this.options.startPage));
             this.setupEvents();
 
             this.$element.trigger('page', this.options.startPage);
-            
+
             return this;
         },
-        
+
         destroy: function () {
             this.$element.empty();
             return this;
@@ -96,15 +92,17 @@
             }
 
             if (this.options.prev) {
-                $listItems = $listItems.add(this.buildItem('prev', 1));
+                var prev = pages.currentPage > 1 ? pages.currentPage - 1 : 1;
+                $listItems = $listItems.add(this.buildItem('prev', prev));
             }
 
-            for (var i = 0; i < pages.length; i++) {
-                $listItems = $listItems.add(this.buildItem('page', pages[i]));
+            for (var i = 0; i < pages.numeric.length; i++) {
+                $listItems = $listItems.add(this.buildItem('page', pages.numeric[i]));
             }
 
             if (this.options.next) {
-                $listItems = $listItems.add(this.buildItem('next', 2));
+                var next = pages.currentPage >= this.options.totalPages ? this.options.totalPages : pages.currentPage + 1;
+                $listItems = $listItems.add(this.buildItem('next', next));
             }
 
             if (this.options.last) {
@@ -120,7 +118,7 @@
                 itemText = null;
 
             itemContainer.addClass(type);
-            itemContainer.attr('data-page', page);
+            itemContainer.data('page', page);
 
             switch (type) {
                 case 'page':
@@ -142,7 +140,7 @@
                     break;
             }
 
-            itemContainer.append(itemContent.attr('href', this.href(page)).text(itemText));
+            itemContainer.append(itemContent.attr('href', this.href(page)).html(itemText));
             return itemContainer;
         },
 
@@ -173,14 +171,21 @@
         },
 
         render: function (pages) {
-            if (!this.equals(this.currentPages.numeric, pages.numeric)) {
-                this.$listContainer.children().remove();
-                this.$listContainer.append(this.buildListItems(pages.numeric));
-                this.currentPages = pages;
-            }
+            this.$listContainer.children().remove();
+            this.$listContainer.append(this.buildListItems(pages));
 
             this.$listContainer.find('.page').removeClass('active');
-            this.$listContainer.find('.page').filter('[data-page="' + pages.currentPage + '"]').addClass('active');
+            this.$listContainer.find('.page').filter(function () {
+                return $(this).data('page') === pages.currentPage;
+            }).addClass('active');
+
+            if (pages.currentPage === 1) {
+                this.$listContainer.find('.prev a,.first a').attr("href", "javascript:void(0);");
+            }
+
+            if (pages.currentPage === this.options.totalPages) {
+                this.$listContainer.find('.next a,.last a').attr("href", "javascript:void(0);");
+            }
 
             this.$listContainer.find('.first')
                 .toggleClass('disabled', pages.currentPage === 1);
@@ -188,15 +193,11 @@
             this.$listContainer.find('.last')
                 .toggleClass('disabled', pages.currentPage === this.options.totalPages);
 
-            var prev = pages.currentPage - 1;
             this.$listContainer.find('.prev')
-                .toggleClass('disabled', pages.currentPage === 1)
-                .data('page', prev > 1 ? prev : 1);
+                .toggleClass('disabled', pages.currentPage === 1);
 
-            var next = pages.currentPage + 1;
             this.$listContainer.find('.next')
-                .toggleClass('disabled', pages.currentPage === this.options.totalPages)
-                .data('page', next < this.options.totalPages ? next : this.options.totalPages);
+                .toggleClass('disabled', pages.currentPage === this.options.totalPages);
         },
 
         setupEvents: function () {
