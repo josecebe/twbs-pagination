@@ -244,6 +244,10 @@
 
         return ( methodReturn === undefined ) ? $this : methodReturn;
     };
+    
+    $.fn.resetPaging = function () {
+        $(this).data('twbs-pagination', null);
+    };
 
     $.fn.twbsPagination.defaults = {
         totalPages: 0,
