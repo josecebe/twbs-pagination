@@ -6,7 +6,6 @@
  * Released under Apache 2.0 license
  * http://apache.org/licenses/LICENSE-2.0.html
  */
-;
 (function ($, window, document, undefined) {
 
     'use strict';
