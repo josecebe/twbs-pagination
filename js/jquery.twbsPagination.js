@@ -41,7 +41,7 @@
             }
 
             if (this.options.onPageClick instanceof Function) {
-                this.$element.bind('page', this.options.onPageClick);
+                this.$element.first().bind('page', this.options.onPageClick);
             }
 
             var tagName = (typeof this.$element.prop === 'function') ?
@@ -61,8 +61,6 @@
 
             this.render(this.getPages(this.options.startPage));
             this.setupEvents();
-
-            this.$element.trigger('page', this.options.startPage);
 
             return this;
         },
@@ -210,17 +208,6 @@
                     base.show(parseInt($this.data('page'), 10));
                 });
             });
-        },
-
-        equals: function (arr1, arr2) {
-            var i = 0;
-            while ((i < arr1.length) || (i < arr2.length)) {
-                if (arr1[i] !== arr2[i]) {
-                    return false;
-                }
-                i++;
-            }
-            return true;
         },
 
         href: function (c) {

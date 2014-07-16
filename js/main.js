@@ -18,6 +18,5 @@ $(document).ready(function () {
             $('#sync-example-page-content').text('Page ' + page);
         }
     });
-
 });
 
