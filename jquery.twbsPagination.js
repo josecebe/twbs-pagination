@@ -1,5 +1,5 @@
 /**
- * jQuery pagination plugin v1.1.1
+ * jQuery pagination plugin v1.1.2
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -41,7 +41,7 @@
             }
 
             if (this.options.onPageClick instanceof Function) {
-                this.$element.bind('page', this.options.onPageClick);
+                this.$element.first().bind('page', this.options.onPageClick);
             }
 
             var tagName = (typeof this.$element.prop === 'function') ?
@@ -61,8 +61,6 @@
 
             this.render(this.getPages(this.options.startPage));
             this.setupEvents();
-
-            this.$element.trigger('page', this.options.startPage);
 
             return this;
         },
@@ -212,17 +210,6 @@
             });
         },
 
-        equals: function (arr1, arr2) {
-            var i = 0;
-            while ((i < arr1.length) || (i < arr2.length)) {
-                if (arr1[i] !== arr2[i]) {
-                    return false;
-                }
-                i++;
-            }
-            return true;
-        },
-
         href: function (c) {
             return this.options.href.replace(this.options.hrefVariable, c);
         }
@@ -243,10 +230,6 @@
         if (typeof option === 'string') methodReturn = data[ option ].apply(data, args);
 
         return ( methodReturn === undefined ) ? $this : methodReturn;
-    };
-    
-    $.fn.resetPaging = function () {
-        $(this).data('twbs-pagination', null);
     };
 
     $.fn.twbsPagination.defaults = {

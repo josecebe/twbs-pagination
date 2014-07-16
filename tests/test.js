@@ -5,17 +5,6 @@
         totalPages: 30
     });
 
-    test("Test 'equals' method", function () {
-        var a1 = [5, 4, 5, 8, 7, 9, 1, 70];
-        var a2 = [5, 4, 5, 8, 7, 9, 1, 70];
-        var b = [1, 4, 8];
-        var real = [1, 4, 8, 9, 0, undefined, 5000];
-        ok(pag1.twbsPagination('equals', a1, a1), "Check the same array");
-        ok(pag1.twbsPagination('equals', a1, a2), "Check separate equals array");
-        ok(!pag1.twbsPagination('equals', a1, b), "Check not equal array");
-        ok(!pag1.twbsPagination('equals', b, real), "Dirty test");
-    });
-
     test("Test 'getPages' method (EVEN visible pages number)", function () {
         var expected1 = {currentPage: 1, numeric: [1, 2, 3, 4, 5]};
         deepEqual(pag1.twbsPagination('getPages', 1), expected1);
