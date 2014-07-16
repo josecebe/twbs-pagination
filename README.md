@@ -22,6 +22,9 @@ For more information see [docs on github pages](http://esimakin.github.io/twbs-p
 
 #### Changelog ####
 
+v1.1.2
+- Bug with multiple call 'onPageClick' in case multi-pagination fixed
+
 v1.1.1
 - Fix bug with incorrect next\prev page link in href attribute
 
