@@ -67,6 +67,7 @@
 
         destroy: function () {
             this.$element.empty();
+            this.$element.removeData('twbs-pagination');
             return this;
         },
 
