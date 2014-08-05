@@ -2,7 +2,7 @@
 
 ### Basic usage ###
 
-Plugin requires jQuery (min - 1.11.1, recomended - 1.7.1 or higher).
+Plugin requires jQuery (required - 1.7.0 or higher).
 
 You can use Bootstrap CSS styles and markup (or use your own).
 
