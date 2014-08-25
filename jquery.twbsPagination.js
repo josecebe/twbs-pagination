@@ -17,7 +17,6 @@
 
     var TwbsPagination = function (element, options) {
         this.$element = $(element);
-        this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
         this.init(this.options);
     };
 
@@ -26,7 +25,7 @@
         constructor: TwbsPagination,
 
         init: function (options) {
-            this.options = $.extend({}, this.options, options);
+            this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
 
             if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
                 throw new Error('Start page option is incorrect');
