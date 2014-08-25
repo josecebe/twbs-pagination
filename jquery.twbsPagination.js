@@ -17,7 +17,7 @@
 
     var TwbsPagination = function (element, options) {
         this.$element = $(element);
-        this.init(this.options);
+        this.init(options);
     };
 
     TwbsPagination.prototype = {
