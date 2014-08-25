@@ -17,52 +17,48 @@
 
     var TwbsPagination = function (element, options) {
         this.$element = $(element);
-        this.init(options);
+        this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
+
+        if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
+            throw new Error('Start page option is incorrect');
+        }
+
+        if (this.options.totalPages <= 0) {
+            throw new Error('Total pages option cannot be less 1 (one)!');
+        }
+
+        if (this.options.totalPages < this.options.visiblePages) {
+            this.options.visiblePages = this.options.totalPages;
+        }
+
+        if (this.options.onPageClick instanceof Function) {
+            this.$element.first().bind('page', this.options.onPageClick);
+        }
+
+        var tagName = (typeof this.$element.prop === 'function') ?
+            this.$element.prop('tagName') : this.$element.attr('tagName');
+
+        if (tagName === 'UL') {
+            this.$listContainer = this.$element;
+        } else {
+            this.$listContainer = $('<ul></ul>');
+        }
+
+        this.$listContainer.addClass(this.options.paginationClass);
+
+        if (tagName !== 'UL') {
+            this.$element.append(this.$listContainer);
+        }
+
+        this.render(this.getPages(this.options.startPage));
+        this.setupEvents();
+
+        return this;
     };
 
     TwbsPagination.prototype = {
 
         constructor: TwbsPagination,
-
-        init: function (options) {
-            this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
-
-            if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
-                throw new Error('Start page option is incorrect');
-            }
-
-            if (this.options.totalPages <= 0) {
-                throw new Error('Total pages option cannot be less 1 (one)!');
-            }
-
-            if (this.options.totalPages < this.options.visiblePages) {
-                this.options.visiblePages = this.options.totalPages;
-            }
-
-            if (this.options.onPageClick instanceof Function) {
-                this.$element.first().bind('page', this.options.onPageClick);
-            }
-
-            var tagName = (typeof this.$element.prop === 'function') ?
-                this.$element.prop('tagName') : this.$element.attr('tagName');
-
-            if (tagName === 'UL') {
-                this.$listContainer = this.$element;
-            } else {
-                this.$listContainer = $('<ul></ul>');
-            }
-
-            this.$listContainer.addClass(this.options.paginationClass);
-
-            if (tagName !== 'UL') {
-                this.$element.append(this.$listContainer);
-            }
-
-            this.render(this.getPages(this.options.startPage));
-            this.setupEvents();
-
-            return this;
-        },
 
         destroy: function () {
             this.$element.empty();
