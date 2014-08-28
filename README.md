@@ -20,20 +20,6 @@ $('#pagination-demo').twbsPagination({
 
 For more information see [docs on github pages](http://esimakin.github.io/twbs-pagination/)
 
-#### Changelog ####
-
-v1.1.2
-- Bug with multiple call 'onPageClick' in case multi-pagination fixed
-
-v1.1.1
-- Fix bug with incorrect next\prev page link in href attribute
-
-v1.1
-- Added 'hold current page on center'
-
-v1.0
-- Simple pagination
-
 #### License ####
 
 Copyright 2014 &copy; Eugene Simakin
