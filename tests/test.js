@@ -31,7 +31,8 @@
     });
 
     test("Test 'getPages' method (ODD visible pages number)", function () {
-        pag1.twbsPagination('init', {totalPages: 30, visiblePages: 6});
+        pag1.twbsPagination('destroy');
+        pag1.twbsPagination({totalPages: 30, visiblePages: 6});
         var expected1 = {currentPage: 1, numeric: [1, 2, 3, 4, 5, 6]};
         deepEqual(pag1.twbsPagination('getPages', 1), expected1);
         var expected2 = {currentPage: 2, numeric: [1, 2, 3, 4, 5, 6]};
@@ -57,7 +58,8 @@
     });
 
     test("Test 'getPages' method (total < visible)", function () {
-        pag1.twbsPagination('init', {
+        pag1.twbsPagination('destroy');
+        pag1.twbsPagination({
             totalPages: 3,
             visiblePages: 5
         });
