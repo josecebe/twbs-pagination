@@ -1,5 +1,5 @@
-/**
- * jQuery pagination plugin v1.2.0
+/*!
+ * jQuery pagination plugin v1.2.1
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -23,8 +23,14 @@
             throw new Error('Start page option is incorrect');
         }
 
-        if (this.options.totalPages <= 0) {
-            throw new Error('Total pages option cannot be less 1 (one)!');
+        this.options.totalPages = parseInt(this.options.totalPages);
+        if (isNaN(this.options.totalPages)) {
+            throw new Error('Total pages option is not correct!');
+        }
+
+        this.options.visiblePages = parseInt(this.options.visiblePages);
+        if (isNaN(this.options.visiblePages)) {
+            throw new Error('Visible pages option is not correct!');
         }
 
         if (this.options.totalPages < this.options.visiblePages) {
