@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#pagination-demo').twbsPagination({
-        totalPages: 35,
-        visiblePages: 7,
+        totalPages: "35",
+        visiblePages: "10",
         onPageClick: function (event, page) {
             $('#page-content').text('Page ' + page);
         }
