@@ -175,10 +175,10 @@
             this.$listContainer.children().remove();
             this.$listContainer.append(this.buildListItems(pages));
 
-            this.$listContainer.find('.page').removeClass('active');
+            this.$listContainer.find('.page').removeClass(this.options.activeClass);
             this.$listContainer.find('.page').filter(function () {
                 return $(this).data('page') === pages.currentPage;
-            }).addClass('active');
+            }).addClass(this.options.activeClass);
 
             if (pages.currentPage === 1) {
                 this.$listContainer.find('.prev a,.first a').attr("href", "javascript:void(0);");
@@ -189,24 +189,25 @@
             }
 
             this.$listContainer.find('.first')
-                .toggleClass('disabled', pages.currentPage === 1);
+                .toggleClass(this.options.disabledClass, pages.currentPage === 1);
 
             this.$listContainer.find('.last')
-                .toggleClass('disabled', pages.currentPage === this.options.totalPages);
+                .toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
 
             this.$listContainer.find('.prev')
-                .toggleClass('disabled', pages.currentPage === 1);
+                .toggleClass(this.options.disabledClass, pages.currentPage === 1);
 
             this.$listContainer.find('.next')
-                .toggleClass('disabled', pages.currentPage === this.options.totalPages);
+                .toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
         },
 
         setupEvents: function () {
-            var base = this;
+            var base = this,
+            options = this.options;
             this.$listContainer.find('li').each(function () {
                 var $this = $(this);
                 $this.off();
-                if ($this.hasClass('disabled') || $this.hasClass('active')) return;
+                if ($this.hasClass(options.disabledClass) || $this.hasClass(options.activeClass)) return;
                 $this.click(function () {
                     base.show(parseInt($this.data('page'), 10));
                 });
@@ -241,6 +242,8 @@
         visiblePages: 5,
         href: 'javascript:void(0);',
         hrefVariable: '{{number}}',
+        activeClass: 'active',
+        disabledClass: 'disabled',
         first: 'First',
         prev: 'Previous',
         next: 'Next',
