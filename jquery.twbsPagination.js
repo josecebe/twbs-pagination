@@ -180,11 +180,11 @@
             }).addClass(this.options.activeClass);
 
             if (pages.currentPage === 1) {
-                this.$listContainer.find('.'+this.options.prevClass+' a,.'+this.options.firstClass+' a').attr("href", "javascript:void(0);");
+                this.$listContainer.find('.'+this.options.prevClass+' a,.'+this.options.firstClass+' a');
             }
 
             if (pages.currentPage === this.options.totalPages) {
-                this.$listContainer.find('.'+this.options.nextClass+' a,.'+this.options.lastClass+' a').attr("href", "javascript:void(0);");
+                this.$listContainer.find('.'+this.options.nextClass+' a,.'+this.options.lastClass+' a');
             }
 
             this.$listContainer.find('.'+this.options.firstClass)
@@ -206,7 +206,8 @@
                 var $this = $(this);
                 $this.off();
                 if ($this.hasClass(base.options.disabledClass) || $this.hasClass(base.options.activeClass)) return;
-                $this.click(function () {
+                $this.click(function (evt) {
+                    evt.preventDefault();
                     base.show(parseInt($this.data('page'), 10));
                 });
             });
@@ -238,7 +239,7 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
-        href: 'javascript:void(0);',
+        href: '#',
         hrefVariable: '{{number}}',
         first: 'First',
         prev: 'Previous',
