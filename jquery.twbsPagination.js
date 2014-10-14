@@ -179,14 +179,6 @@
                 return $(this).data('page') === pages.currentPage;
             }).addClass(this.options.activeClass);
 
-            if (pages.currentPage === 1) {
-                this.$listContainer.find('.'+this.options.prevClass+' a,.'+this.options.firstClass+' a');
-            }
-
-            if (pages.currentPage === this.options.totalPages) {
-                this.$listContainer.find('.'+this.options.nextClass+' a,.'+this.options.lastClass+' a');
-            }
-
             this.$listContainer.find('.'+this.options.firstClass)
                 .toggleClass(this.options.disabledClass, pages.currentPage === 1);
 
@@ -207,14 +199,15 @@
                 $this.off();
                 if ($this.hasClass(base.options.disabledClass) || $this.hasClass(base.options.activeClass)) return;
                 $this.click(function (evt) {
-                    evt.preventDefault();
+                    // Prevent click event if href is not set.
+                    !base.options.href && evt.preventDefault();
                     base.show(parseInt($this.data('page'), 10));
                 });
             });
         },
 
         href: function (c) {
-            return this.options.href.replace(this.options.hrefVariable, c);
+            return this.options.href ? this.options.href.replace(this.options.hrefVariable, c) : "#";
         }
 
     };
@@ -239,7 +232,7 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
-        href: '#',
+        href: false,
         hrefVariable: '{{number}}',
         first: 'First',
         prev: 'Previous',
