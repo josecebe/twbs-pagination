@@ -93,7 +93,7 @@
             }
 
             if (this.options.prev) {
-                var prev = pages.currentPage > 1 ? pages.currentPage - 1 : 1;
+                var prev = pages.currentPage > 1 ? pages.currentPage - 1 : this.options.loop ? this.options.totalPages  : 1;
                 $listItems = $listItems.add(this.buildItem('prev', prev, this.options.prevClass));
             }
 
@@ -102,7 +102,7 @@
             }
 
             if (this.options.next) {
-                var next = pages.currentPage >= this.options.totalPages ? this.options.totalPages : pages.currentPage + 1;
+                var next = pages.currentPage < this.options.totalPages ? pages.currentPage + 1 : this.options.loop ? 1 : this.options.totalPages;
                 $listItems = $listItems.add(this.buildItem('next', next, this.options.nextClass));
             }
 
@@ -186,10 +186,10 @@
                 .toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
 
             this.$listContainer.find('.'+this.options.prevClass)
-                .toggleClass(this.options.disabledClass, pages.currentPage === 1);
+                .toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === 1);
 
             this.$listContainer.find('.'+this.options.nextClass)
-                .toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
+                .toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === this.options.totalPages);
         },
 
         setupEvents: function () {
@@ -238,6 +238,7 @@
         prev: 'Previous',
         next: 'Next',
         last: 'Last',
+        loop: false,
         onPageClick: null,
         paginationClass: 'pagination',
         nextClass: 'next',
