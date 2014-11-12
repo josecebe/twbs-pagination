@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.1
+ * jQuery pagination plugin v1.2.4
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -39,6 +39,14 @@
 
         if (this.options.onPageClick instanceof Function) {
             this.$element.first().bind('page', this.options.onPageClick);
+        }
+
+        if (this.options.href) {
+            var m, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
+            regexp = regexp.replace(this.options.hrefVariable, '(\\d+)');
+            if ((m = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
+                this.options.startPage = parseInt(m[1], 10);
+            }
         }
 
         var tagName = (typeof this.$element.prop === 'function') ?
@@ -89,59 +97,63 @@
             var $listItems = $();
 
             if (this.options.first) {
-                $listItems = $listItems.add(this.buildItem('first', 1, this.options.firstClass));
+                $listItems = $listItems.add(this.buildItem('first', 1));
             }
 
             if (this.options.prev) {
-                var prev = pages.currentPage > 1 ? pages.currentPage - 1 : 1;
-                $listItems = $listItems.add(this.buildItem('prev', prev, this.options.prevClass));
+                var prev = pages.currentPage > 1 ? pages.currentPage - 1 : this.options.loop ? this.options.totalPages  : 1;
+                $listItems = $listItems.add(this.buildItem('prev', prev));
             }
 
             for (var i = 0; i < pages.numeric.length; i++) {
-                $listItems = $listItems.add(this.buildItem('page', pages.numeric[i], this.options.pageClass));
+                $listItems = $listItems.add(this.buildItem('page', pages.numeric[i]));
             }
 
             if (this.options.next) {
-                var next = pages.currentPage >= this.options.totalPages ? this.options.totalPages : pages.currentPage + 1;
-                $listItems = $listItems.add(this.buildItem('next', next, this.options.nextClass));
+                var next = pages.currentPage < this.options.totalPages ? pages.currentPage + 1 : this.options.loop ? 1 : this.options.totalPages;
+                $listItems = $listItems.add(this.buildItem('next', next));
             }
 
             if (this.options.last) {
-                $listItems = $listItems.add(this.buildItem('last', this.options.totalPages, this.options.lastClass));
+                $listItems = $listItems.add(this.buildItem('last', this.options.totalPages));
             }
 
             return $listItems;
         },
 
-        buildItem: function (type, page, el_class) {
+        buildItem: function (type, page) {
             var itemContainer = $('<li></li>'),
                 itemContent = $('<a></a>'),
                 itemText = null;
 
-            itemContainer.addClass(el_class);
-            itemContainer.data('page', page);
-
             switch (type) {
                 case 'page':
                     itemText = page;
+                    itemContainer.addClass(this.options.pageClass);
                     break;
                 case 'first':
                     itemText = this.options.first;
+                    itemContainer.addClass(this.options.firstClass);
                     break;
                 case 'prev':
                     itemText = this.options.prev;
+                    itemContainer.addClass(this.options.prevClass);
                     break;
                 case 'next':
                     itemText = this.options.next;
+                    itemContainer.addClass(this.options.nextClass);
                     break;
                 case 'last':
                     itemText = this.options.last;
+                    itemContainer.addClass(this.options.lastClass);
                     break;
                 default:
                     break;
             }
 
-            itemContainer.append(itemContent.attr('href', this.href(page)).html(itemText));
+            itemContainer.data('page', page);
+            itemContainer.data('page-type', type);
+            itemContainer.append(itemContent.attr('href', this.makeHref(page)).html(itemText));
             return itemContainer;
         },
 
@@ -175,29 +187,26 @@
             this.$listContainer.children().remove();
             this.$listContainer.append(this.buildListItems(pages));
 
-            this.$listContainer.find('.'+this.options.pageClass).removeClass(this.options.activeClass).filter(function () {
+            var children = this.$listContainer.children();
+            children.filter(function () {
                 return $(this).data('page') === pages.currentPage;
             }).addClass(this.options.activeClass);
 
-            if (pages.currentPage === 1) {
-                this.$listContainer.find('.'+this.options.prevClass+' a,.'+this.options.firstClass+' a').attr("href", "javascript:void(0);");
-            }
+            children.filter(function () {
+                return $(this).data('page-type') === 'first';
+            }).toggleClass(this.options.disabledClass, pages.currentPage === 1);
 
-            if (pages.currentPage === this.options.totalPages) {
-                this.$listContainer.find('.'+this.options.nextClass+' a,.'+this.options.lastClass+' a').attr("href", "javascript:void(0);");
-            }
+            children.filter(function () {
+                return $(this).data('page-type') === 'last';
+            }).toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
 
-            this.$listContainer.find('.'+this.options.firstClass)
-                .toggleClass(this.options.disabledClass, pages.currentPage === 1);
+            children.filter(function () {
+                return $(this).data('page-type') === 'prev';
+            }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === 1);
 
-            this.$listContainer.find('.'+this.options.lastClass)
-                .toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
-
-            this.$listContainer.find('.'+this.options.prevClass)
-                .toggleClass(this.options.disabledClass, pages.currentPage === 1);
-
-            this.$listContainer.find('.'+this.options.nextClass)
-                .toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
+            children.filter(function () {
+                return $(this).data('page-type') === 'next';
+            }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === this.options.totalPages);
         },
 
         setupEvents: function () {
@@ -205,15 +214,22 @@
             this.$listContainer.find('li').each(function () {
                 var $this = $(this);
                 $this.off();
-                if ($this.hasClass(base.options.disabledClass) || $this.hasClass(base.options.activeClass)) return;
-                $this.click(function () {
+                if ($this.hasClass(base.options.disabledClass) || $this.hasClass(base.options.activeClass)) {
+                    $this.click(function (evt) {
+                        evt.preventDefault();
+                    });
+                    return;
+                }
+                $this.click(function (evt) {
+                    // Prevent click event if href is not set.
+                    !base.options.href && evt.preventDefault();
                     base.show(parseInt($this.data('page'), 10));
                 });
             });
         },
 
-        href: function (c) {
-            return this.options.href.replace(this.options.hrefVariable, c);
+        makeHref: function (c) {
+            return this.options.href ? this.options.href.replace(this.options.hrefVariable, c) : "#";
         }
 
     };
@@ -238,12 +254,13 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
-        href: 'javascript:void(0);',
+        href: false,
         hrefVariable: '{{number}}',
         first: 'First',
         prev: 'Previous',
         next: 'Next',
         last: 'Last',
+        loop: false,
         onPageClick: null,
         paginationClass: 'pagination',
         nextClass: 'next',

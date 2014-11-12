@@ -80,7 +80,7 @@
     });</code></pre>
 
             <p>And HTML code:</p>
-            <pre><code class="highlight">    &lt;<span class="nt">ul</span> <span class="na">id</span>=<span class="s">&quot;pagination-demo&quot;</span><span class="na">class</span>=<span class="s">&quot;pagination-sm&quot;</span>&gt;&lt;/<span class="nt">ul</span>&gt;</code></pre>
+            <pre><code class="highlight">    &lt;<span class="nt">ul</span> <span class="na">id</span>=<span class="s">&quot;pagination-demo&quot;</span><span class="na"> class</span>=<span class="s">&quot;pagination-sm&quot;</span>&gt;&lt;/<span class="nt">ul</span>&gt;</code></pre>
 
             <h3>
                 <a id="options-and-events" class="anchor" href="#options-and-events"><span
@@ -92,7 +92,7 @@
                 <li><code>totalPages</code> the number of pages (required, checked)</li>
                 <li><code>startPage</code> the current page that show on start(default: 1)</li>
                 <li><code>visiblePages</code> maximum visible pages (default: 5)</li>
-                <li><code>href</code> template for pagination links (default <code>javascript:void(0);</code>)</li>
+                <li><code>href</code> template for pagination links (default <code>false</code>)</li>
                 <li><code>hrefVariable</code> variable name in href template for page number (default
                     <code>{{number}}</code>)
                 </li>
@@ -106,6 +106,7 @@
                 </li>
                 <li><code>last</code> text label (default: <code class="highlight"><span class="s">'Last'</span></code>)
                 </li>
+                <li><code>loop</code> carousel-style pagination (default: <code class="highlight">false</code>)</li>
                 <li><code>paginationClass</code> the root style for pagination component (default: <code
                         class="highlight"><span class="s">'pagination'</span></code>).
                     You can use this option to apply your own style
