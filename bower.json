@@ -1,6 +1,6 @@
 {
     "name": "twbs-pagination",
-    "version": "1.1.1",
+    "version": "1.2.5",
     "homepage": "https://github.com/esimakin/twbs-pagination",
     "authors": [
         "Eugene Simakin <eugenesimakin@mail.ru>"
@@ -11,7 +11,7 @@
         "globals"
     ],
     "dependencies": {
-        "jquery": ">=1.7.2"
+        "jquery": ">=1.7.0"
     },
     "keywords": [
         "pagination",
