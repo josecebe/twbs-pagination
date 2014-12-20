@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.4
+ * jQuery pagination plugin v1.2.5
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -189,7 +189,7 @@
 
             var children = this.$listContainer.children();
             children.filter(function () {
-                return $(this).data('page') === pages.currentPage;
+                return $(this).data('page') === pages.currentPage && $(this).data('page-type') === 'page';
             }).addClass(this.options.activeClass);
 
             children.filter(function () {
