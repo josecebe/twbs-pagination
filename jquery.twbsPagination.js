@@ -64,8 +64,10 @@
             this.$element.append(this.$listContainer);
         }
 
+        this.state = 'enabled';
         this.render(this.getPages(this.options.startPage));
         this.setupEvents();
+        this.$element.data('current-page', this.options.startPage);
 
         return this;
     };
@@ -73,6 +75,24 @@
     TwbsPagination.prototype = {
 
         constructor: TwbsPagination,
+
+        updateView: function () {
+            var currentPage = this.$element.data('current-page');
+            this.render(this.getPages(currentPage));
+            this.setupEvents();
+        },
+
+        enable: function() {
+            this.state = 'enabled';
+            this.updateView();
+            return this;
+        },
+
+        disable: function() {
+            this.state = 'disabled';
+            this.updateView();
+            return this;
+        },
 
         destroy: function () {
             this.$element.empty();
@@ -89,6 +109,7 @@
             this.render(this.getPages(page));
             this.setupEvents();
 
+            this.$element.data('current-page', page);
             this.$element.trigger('page', page);
             return this;
         },
@@ -187,26 +208,35 @@
             this.$listContainer.children().remove();
             this.$listContainer.append(this.buildListItems(pages));
 
-            var children = this.$listContainer.children();
-            children.filter(function () {
-                return $(this).data('page') === pages.currentPage && $(this).data('page-type') === 'page';
-            }).addClass(this.options.activeClass);
+            var children = this.$listContainer.children(), base = this;
 
-            children.filter(function () {
-                return $(this).data('page-type') === 'first';
-            }).toggleClass(this.options.disabledClass, pages.currentPage === 1);
+            if (this.state === 'enabled') {
+                children.filter(function () {
+                    return $(this).data('page') === pages.currentPage && $(this).data('page-type') === 'page';
+                }).addClass(this.options.activeClass);
 
-            children.filter(function () {
-                return $(this).data('page-type') === 'last';
-            }).toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
+                children.filter(function () {
+                    return $(this).data('page-type') === 'first';
+                }).toggleClass(this.options.disabledClass, pages.currentPage === 1);
 
-            children.filter(function () {
-                return $(this).data('page-type') === 'prev';
-            }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === 1);
+                children.filter(function () {
+                    return $(this).data('page-type') === 'last';
+                }).toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
 
-            children.filter(function () {
-                return $(this).data('page-type') === 'next';
-            }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === this.options.totalPages);
+                children.filter(function () {
+                    return $(this).data('page-type') === 'prev';
+                }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === 1);
+
+                children.filter(function () {
+                    return $(this).data('page-type') === 'next';
+                }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === this.options.totalPages);
+            } else if (this.state === 'disabled') {
+                children.each(function (index, elem) {
+                    $(elem).addClass(base.options.disabledClass);
+                });
+            } else {
+                console.error("Undefined state!");
+            }
         },
 
         setupEvents: function () {
