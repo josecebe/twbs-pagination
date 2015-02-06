@@ -183,9 +183,51 @@
             return {"currentPage": currentPage, "numeric": pages};
         },
 
+        buildGoTo: function() {
+            var base = this;
+            var gotoContainer = $('<div></div>')
+                .addClass('input-group')
+                .css("margin-top", "10px")
+                .css("width", this.options.goToInputWidth);
+
+            var input = $('<input type="text">')
+                .addClass('form-control')
+                .keypress(function (e) {
+                    if (e.which == 13) {
+                        base.show(parseInt(input.val()), 10);
+                    }
+                })
+                .numeric(); // uses jquery-numeric which i added to the bower dependencies
+            if(this.options.goToPlaceholder) {
+                input.attr('placeholder', this.options.goToPlaceholder);
+            }
+
+            gotoContainer.append(input);
+            var span = $('<span>')
+                .addClass('input-group-btn');
+
+            var button = $('<button>')
+                .addClass('btn')
+                .addClass('btn-default')
+                .text(this.options.goToButtonText)
+                .click(function() {
+                    base.show(parseInt(input.val()), 10);
+                });
+
+            span.append(button);
+            gotoContainer.append(span);
+
+            return gotoContainer;
+        },
+
         render: function (pages) {
             this.$listContainer.children().remove();
             this.$listContainer.append(this.buildListItems(pages));
+            if(this.options.showGoTo) {
+                this.$element.css("display","inline-flex");
+                this.$listContainer.next().remove();
+                this.$listContainer.after(this.buildGoTo());
+            }
 
             var children = this.$listContainer.children();
             children.filter(function () {
@@ -269,7 +311,12 @@
         firstClass: 'first',
         pageClass: 'page',
         activeClass: 'active',
-        disabledClass: 'disabled'
+        disabledClass: 'disabled',
+        showGoTo: false,
+        goToButtonText: "Go",
+        goToPlaceholder: "Select Page",
+        goToInputWidth: "150px"
+
     };
 
     $.fn.twbsPagination.Constructor = TwbsPagination;
