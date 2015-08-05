@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.5
+ * jQuery pagination plugin v1.2.6
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -41,14 +41,14 @@
             this.$element.first().bind('page', this.options.onPageClick);
         }
 
-        if (this.options.href) {
-            var m, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
-            regexp = regexp.replace(this.options.hrefVariable, '(\\d+)');
-            if ((m = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
-                this.options.startPage = parseInt(m[1], 10);
-            }
+        this.options.base_href = window.location.href;
+        var tmp_regexp = '^(.*)'+this.options.page_param+'\\=(\\d+).*$';
+        var regexp = new RegExp(tmp_regexp);
+        var matched_arr = this.options.base_href.match(regexp);
+        if('object' == typeof matched_arr && matched_arr !== null){
+            this.options.startPage = parseInt(matched_arr[2]);            
         }
-
+      
         var tagName = (typeof this.$element.prop === 'function') ?
             this.$element.prop('tagName') : this.$element.attr('tagName');
 
@@ -96,6 +96,8 @@
         buildListItems: function (pages) {
             var $listItems = $();
 
+            $listItems = $listItems.add(this.buildItem('total',this.options.totalPages));
+            
             if (this.options.first) {
                 $listItems = $listItems.add(this.buildItem('first', 1));
             }
@@ -127,6 +129,10 @@
                 itemText = null;
 
             switch (type) {
+                case 'total':
+                    itemText = this.options.lang_total+this.options.totalPages+this.options.lang_page;
+                    itemContainer.addClass(this.options.pageClass);
+                    break;
                 case 'page':
                     itemText = page;
                     itemContainer.addClass(this.options.pageClass);
@@ -150,10 +156,10 @@
                 default:
                     break;
             }
-
+            
             itemContainer.data('page', page);
             itemContainer.data('page-type', type);
-            itemContainer.append(itemContent.attr('href', this.makeHref(page)).html(itemText));
+            
             return itemContainer;
         },
 
@@ -188,6 +194,11 @@
             this.$listContainer.append(this.buildListItems(pages));
 
             var children = this.$listContainer.children();
+            
+            children.filter(function () {
+                return $(this).data('page-type') === 'total';
+            }).toggleClass(this.options.disabledClass, 1);
+            
             children.filter(function () {
                 return $(this).data('page') === pages.currentPage && $(this).data('page-type') === 'page';
             }).addClass(this.options.activeClass);
@@ -228,10 +239,22 @@
             });
         },
 
-        makeHref: function (c) {
-            return this.options.href ? this.options.href.replace(this.options.hrefVariable, c) : "#";
+        makeHref: function (target_page) {
+            var tmp_regexp = '^(.*)'+this.options.page_param+'\\=(\\d+)(.*)$';
+            var regexp = new RegExp(tmp_regexp);
+            var matched_arr = this.options.base_href.match(regexp);
+            if('object' == typeof matched_arr && matched_arr !== null){
+                matched_arr[2] = this.options.page_param+'='+target_page;
+                matched_arr.shift();
+                return matched_arr.join('');
+            }else{
+                if(curr_href.indexOf('?')>0){
+                    return this.options.base_href+'&'+this.options.page_param+'='+target_page;
+                }else{
+                    return this.options.base_href+'?'+this.options.page_param+'='+target_page;
+                }
+            }
         }
-
     };
 
     // PLUGIN DEFINITION
@@ -254,10 +277,13 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
-        href: false,
-        hrefVariable: '{{number}}',
+        base_href:'',
+        showTotal: true,
+        page_param:'page',
+        lang_total:'Total:',
+        lang_page:'pages',
         first: 'First',
-        prev: 'Previous',
+        prev: 'Prev',
         next: 'Next',
         last: 'Last',
         loop: false,
