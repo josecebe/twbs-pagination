@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.5
+ * jQuery pagination plugin v1.2.6
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -105,13 +105,15 @@
         buildListItems: function (pages) {
             var $listItems = $();
 
-            $listItems = $listItems.add(this.buildItem('total',this.options.totalPages));
+            if (this.options.lang.total && this.options.showTotal) {
+                $listItems = $listItems.add(this.buildItem('total', this.options.totalPages));
+            }
             
-            if (this.options.first) {
+            if (this.options.lang.first) {
                 $listItems = $listItems.add(this.buildItem('first', 1));
             }
 
-            if (this.options.prev) {
+            if (this.options.lang.prev) {
                 var prev = pages.currentPage > 1 ? pages.currentPage - 1 : this.options.loop ? this.options.totalPages  : 1;
                 $listItems = $listItems.add(this.buildItem('prev', prev));
             }
@@ -120,12 +122,12 @@
                 $listItems = $listItems.add(this.buildItem('page', pages.numeric[i]));
             }
 
-            if (this.options.next) {
+            if (this.options.lang.next) {
                 var next = pages.currentPage < this.options.totalPages ? pages.currentPage + 1 : this.options.loop ? 1 : this.options.totalPages;
                 $listItems = $listItems.add(this.buildItem('next', next));
             }
 
-            if (this.options.last) {
+            if (this.options.lang.last) {
                 $listItems = $listItems.add(this.buildItem('last', this.options.totalPages));
             }
 
@@ -139,7 +141,7 @@
 
             switch (type) {
                 case 'total':
-                    itemText = this.options.lang_total+this.options.totalPages;
+                    itemText = this.options.lang.total+this.options.totalPages;
                     itemContainer.addClass(this.options.pageClass);
                     break;
                 case 'page':
@@ -147,25 +149,24 @@
                     itemContainer.addClass(this.options.pageClass);
                     break;
                 case 'first':
-                    itemText = this.options.first;
+                    itemText = this.options.lang.first;       
                     itemContainer.addClass(this.options.firstClass);
                     break;
                 case 'prev':
-                    itemText = this.options.prev;
+                    itemText = this.options.lang.prev;
                     itemContainer.addClass(this.options.prevClass);
                     break;
                 case 'next':
-                    itemText = this.options.next;
+                    itemText = this.options.lang.next;
                     itemContainer.addClass(this.options.nextClass);
                     break;
                 case 'last':
-                    itemText = this.options.last;
+                    itemText = this.options.lang.last;
                     itemContainer.addClass(this.options.lastClass);
                     break;
                 default:
                     break;
             }
-            
             itemContainer.data('page', page);
             itemContainer.data('page-type', type);
             itemContainer.append(itemContent.attr('href', this.makeHref(page)).html(itemText));
@@ -246,18 +247,18 @@
         },
         
         makeBaseHref: function () {
-            var tmp_regexp = '^(.*)'+this.options.page_param+'\\=(\\-?\\d+)(.*)$';
+            var tmp_regexp = '^(.*)'+this.options.pageParam+'\\=(\\-?\\d+)(.*)$';
             var regexp = new RegExp(tmp_regexp);
             var matched_arr = window.location.href.match(regexp);
             if('object' == typeof matched_arr && matched_arr !== null){
                 this.options.startPage = parseInt(matched_arr[2]);
-                matched_arr[2] = this.options.page_param+'='+'{{page_num}}';
+                matched_arr[2] = this.options.pageParam+'='+'{{page_num}}';
                 matched_arr.shift();                
                 this.options.base_href =  matched_arr.join('');
             }else{
                 this.options.startPage = 1;//default 1st page.
                 var delimter = window.location.href.indexOf('?')>0?'&':'?';
-                this.options.base_href =  window.location.href+delimter+this.options.page_param+'='+'{{page_num}}';
+                this.options.base_href =  window.location.href+delimter+this.options.pageParam+'='+'{{page_num}}';
             }
         },
         
@@ -286,20 +287,20 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
-        base_href:'',
         showTotal: true,
-        page_param:'page',
-        lang_total:'Total:',
-        lang_page:'pages',
-        first: 'First',
-        prev: 'Prev',
-        next: 'Next',
-        last: 'Last',
+        pageParam:'page',
+        lang:{
+            total:'Total:',
+            first: 'First',
+            prev: 'Prev',
+            next: 'Next',
+            last: 'Last',
+        },
         loop: false,
         onPageClick: null,
         paginationClass: 'pagination',
         nextClass: 'next',
-        prevClass: 'prev',
+        prevClass: 'previous',
         lastClass: 'last',
         firstClass: 'first',
         pageClass: 'page',
