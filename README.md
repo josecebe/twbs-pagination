@@ -11,9 +11,7 @@ The following code shows call the function on `<ul>` tag (it can be also `<div>`
 ```javascript
 $('#pagination-demo').twbsPagination({
   totalPages: 35,
-  visiblePages: 7,
-  showGoTo:true,
-  page_param:'page'
+  visiblePages: 7
 });
 ```
 
