@@ -41,10 +41,13 @@
             this.$element.first().bind('page', this.options.onPageClick);
         }
 
-        this.options.base_href = window.location.href;
+        this.options.curr_href = window.location.href;
+        
+        this.options.base_href = this.makeBaseHref();
+        
         var tmp_regexp = '^(.*)'+this.options.page_param+'\\=(\\d+).*$';
         var regexp = new RegExp(tmp_regexp);
-        var matched_arr = this.options.base_href.match(regexp);
+        var matched_arr = this.options.curr_href.match(regexp);
         if('object' == typeof matched_arr && matched_arr !== null){
             this.options.startPage = parseInt(matched_arr[2]);            
         }
@@ -232,28 +235,28 @@
                     return;
                 }
                 $this.click(function (evt) {
-                    // Prevent click event if href is not set.
-                    !base.options.href && evt.preventDefault();
                     base.show(parseInt($this.data('page'), 10));
                 });
             });
         },
-
-        makeHref: function (target_page) {
+        makeBaseHref: function () {
             var tmp_regexp = '^(.*)'+this.options.page_param+'\\=(\\d+)(.*)$';
             var regexp = new RegExp(tmp_regexp);
-            var matched_arr = this.options.base_href.match(regexp);
+            var matched_arr = this.options.curr_href.match(regexp);
             if('object' == typeof matched_arr && matched_arr !== null){
-                matched_arr[2] = this.options.page_param+'='+target_page;
+                matched_arr[2] = this.options.page_param+'='+'{{page_num}}';
                 matched_arr.shift();
                 return matched_arr.join('');
             }else{
-                if(this.options.base_href.indexOf('?')>0){
-                    return this.options.base_href+'&'+this.options.page_param+'='+target_page;
+                if(this.options.curr_href.indexOf('?')>0){
+                    return this.options.curr_href+'&'+this.options.page_param+'='+'{{page_num}}';
                 }else{
-                    return this.options.base_href+'?'+this.options.page_param+'='+target_page;
+                    return this.options.curr_href+'?'+this.options.page_param+'='+'{{page_num}}';
                 }
             }
+        },
+        makeHref: function (target_page) {
+            return this.options.base_href.replace('{{page_num}}',target_page);           
         }
     };
 
