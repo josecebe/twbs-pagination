@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.6
+ * jQuery pagination plugin v1.2.5
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -130,7 +130,7 @@
 
             switch (type) {
                 case 'total':
-                    itemText = this.options.lang_total+this.options.totalPages+this.options.lang_page;
+                    itemText = this.options.lang_total+this.options.totalPages;
                     itemContainer.addClass(this.options.pageClass);
                     break;
                 case 'page':
@@ -159,7 +159,7 @@
             
             itemContainer.data('page', page);
             itemContainer.data('page-type', type);
-            
+            itemContainer.append(itemContent.attr('href', this.makeHref(page)).html(itemText));
             return itemContainer;
         },
 
@@ -248,7 +248,7 @@
                 matched_arr.shift();
                 return matched_arr.join('');
             }else{
-                if(curr_href.indexOf('?')>0){
+                if(this.options.base_href.indexOf('?')>0){
                     return this.options.base_href+'&'+this.options.page_param+'='+target_page;
                 }else{
                     return this.options.base_href+'?'+this.options.page_param+'='+target_page;
