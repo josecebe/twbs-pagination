@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.5
+ * jQuery pagination plugin v1.2.6
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -18,11 +18,20 @@
     var TwbsPagination = function (element, options) {
         this.$element = $(element);
         this.options = $.extend({}, $.fn.twbsPagination.defaults, options);
-
-        if (this.options.startPage < 1 || this.options.startPage > this.options.totalPages) {
-            throw new Error('Start page option is incorrect');
+        
+        this.options.startPage = parseInt(this.options.startPage);
+        if (isNaN(this.options.startPage)) {
+            throw new Error('startPage option is not correct!');
         }
-
+        
+        if(this.options.startPage < 1){
+            this.options.startPage = 1;
+        }
+        
+        if(this.options.startPage > this.options.totalPages){
+            this.options.startPage = this.options.totalPages;
+        }
+        
         this.options.totalPages = parseInt(this.options.totalPages);
         if (isNaN(this.options.totalPages)) {
             throw new Error('Total pages option is not correct!');
@@ -40,15 +49,16 @@
         if (this.options.onPageClick instanceof Function) {
             this.$element.first().bind('page', this.options.onPageClick);
         }
+        //get startpage && basic href 
+        this.makeBaseHref();
 
-        if (this.options.href) {
-            var m, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
-            regexp = regexp.replace(this.options.hrefVariable, '(\\d+)');
-            if ((m = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
-                this.options.startPage = parseInt(m[1], 10);
-            }
+        if(this.options.startPage < 1){
+            this.options.startPage = 1;
         }
-
+        if(this.options.startPage > this.options.totalPages){
+            this.options.startPage = this.options.totalPages;
+        }
+            
         var tagName = (typeof this.$element.prop === 'function') ?
             this.$element.prop('tagName') : this.$element.attr('tagName');
 
@@ -63,7 +73,6 @@
         if (tagName !== 'UL') {
             this.$element.append(this.$listContainer);
         }
-
         this.render(this.getPages(this.options.startPage));
         this.setupEvents();
 
@@ -96,11 +105,15 @@
         buildListItems: function (pages) {
             var $listItems = $();
 
-            if (this.options.first) {
+            if (this.options.lang.total && this.options.showTotal) {
+                $listItems = $listItems.add(this.buildItem('total', this.options.totalPages));
+            }
+            
+            if (this.options.lang.first) {
                 $listItems = $listItems.add(this.buildItem('first', 1));
             }
 
-            if (this.options.prev) {
+            if (this.options.lang.prev) {
                 var prev = pages.currentPage > 1 ? pages.currentPage - 1 : this.options.loop ? this.options.totalPages  : 1;
                 $listItems = $listItems.add(this.buildItem('prev', prev));
             }
@@ -109,12 +122,12 @@
                 $listItems = $listItems.add(this.buildItem('page', pages.numeric[i]));
             }
 
-            if (this.options.next) {
+            if (this.options.lang.next) {
                 var next = pages.currentPage < this.options.totalPages ? pages.currentPage + 1 : this.options.loop ? 1 : this.options.totalPages;
                 $listItems = $listItems.add(this.buildItem('next', next));
             }
 
-            if (this.options.last) {
+            if (this.options.lang.last) {
                 $listItems = $listItems.add(this.buildItem('last', this.options.totalPages));
             }
 
@@ -127,30 +140,33 @@
                 itemText = null;
 
             switch (type) {
+                case 'total':
+                    itemText = this.options.lang.total+this.options.totalPages;
+                    itemContainer.addClass(this.options.pageClass);
+                    break;
                 case 'page':
                     itemText = page;
                     itemContainer.addClass(this.options.pageClass);
                     break;
                 case 'first':
-                    itemText = this.options.first;
+                    itemText = this.options.lang.first;       
                     itemContainer.addClass(this.options.firstClass);
                     break;
                 case 'prev':
-                    itemText = this.options.prev;
+                    itemText = this.options.lang.prev;
                     itemContainer.addClass(this.options.prevClass);
                     break;
                 case 'next':
-                    itemText = this.options.next;
+                    itemText = this.options.lang.next;
                     itemContainer.addClass(this.options.nextClass);
                     break;
                 case 'last':
-                    itemText = this.options.last;
+                    itemText = this.options.lang.last;
                     itemContainer.addClass(this.options.lastClass);
                     break;
                 default:
                     break;
             }
-
             itemContainer.data('page', page);
             itemContainer.data('page-type', type);
             itemContainer.append(itemContent.attr('href', this.makeHref(page)).html(itemText));
@@ -163,7 +179,6 @@
             var half = Math.floor(this.options.visiblePages / 2);
             var start = currentPage - half + 1 - this.options.visiblePages % 2;
             var end = currentPage + half;
-
             // handle boundary case
             if (start <= 0) {
                 start = 1;
@@ -188,8 +203,13 @@
             this.$listContainer.append(this.buildListItems(pages));
 
             var children = this.$listContainer.children();
+            
             children.filter(function () {
-                return $(this).data('page') === pages.currentPage && $(this).data('page-type') === 'page';
+                return $(this).data('page-type') === 'total';
+            }).toggleClass(this.options.disabledClass, 1);
+            
+            children.filter(function () {
+                return parseInt($(this).data('page')) === parseInt(pages.currentPage) && $(this).data('page-type') === 'page';
             }).addClass(this.options.activeClass);
 
             children.filter(function () {
@@ -221,17 +241,30 @@
                     return;
                 }
                 $this.click(function (evt) {
-                    // Prevent click event if href is not set.
-                    !base.options.href && evt.preventDefault();
                     base.show(parseInt($this.data('page'), 10));
                 });
             });
         },
-
-        makeHref: function (c) {
-            return this.options.href ? this.options.href.replace(this.options.hrefVariable, c) : "#";
+        
+        makeBaseHref: function () {
+            var tmp_regexp = '^(.*)'+this.options.pageParam+'\\=(\\-?\\d+)(.*)$';
+            var regexp = new RegExp(tmp_regexp);
+            var matched_arr = window.location.href.match(regexp);
+            if('object' == typeof matched_arr && matched_arr !== null){
+                this.options.startPage = parseInt(matched_arr[2]);
+                matched_arr[2] = this.options.pageParam+'='+'{{page_num}}';
+                matched_arr.shift();                
+                this.options.base_href =  matched_arr.join('');
+            }else{
+                this.options.startPage = 1;//default 1st page.
+                var delimter = window.location.href.indexOf('?')>0?'&':'?';
+                this.options.base_href =  window.location.href+delimter+this.options.pageParam+'='+'{{page_num}}';
+            }
+        },
+        
+        makeHref: function (target_page) {
+            return this.options.base_href.replace('{{page_num}}',target_page);           
         }
-
     };
 
     // PLUGIN DEFINITION
@@ -254,17 +287,20 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
-        href: false,
-        hrefVariable: '{{number}}',
-        first: 'First',
-        prev: 'Previous',
-        next: 'Next',
-        last: 'Last',
+        showTotal: true,
+        pageParam:'page',
+        lang:{
+            total:'Total:',
+            first: 'First',
+            prev: 'Prev',
+            next: 'Next',
+            last: 'Last',
+        },
         loop: false,
         onPageClick: null,
         paginationClass: 'pagination',
         nextClass: 'next',
-        prevClass: 'prev',
+        prevClass: 'previous',
         lastClass: 'last',
         firstClass: 'first',
         pageClass: 'page',
