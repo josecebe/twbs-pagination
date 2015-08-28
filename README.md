@@ -11,7 +11,10 @@ The following code shows call the function on `<ul>` tag (it can be also `<div>`
 ```javascript
 $('#pagination-demo').twbsPagination({
   totalPages: 35,
-  visiblePages: 7
+  visiblePages: 7,
+  onPageClick: function (event, page) {
+    $('#page-content').text('Page ' + page);
+  }
 });
 ```
 
