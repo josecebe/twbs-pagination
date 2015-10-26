@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.2.5
+ * jQuery pagination plugin v1.2.6
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014, Eugene Simakin
@@ -66,6 +66,10 @@
 
         this.render(this.getPages(this.options.startPage));
         this.setupEvents();
+
+        if (this.options.initiateStartPageClick) {
+            this.$element.trigger('page', this.options.startPage);
+        }
 
         return this;
     };
@@ -184,29 +188,38 @@
         },
 
         render: function (pages) {
+            var that = this;
             this.$listContainer.children().remove();
             this.$listContainer.append(this.buildListItems(pages));
 
-            var children = this.$listContainer.children();
-            children.filter(function () {
-                return $(this).data('page') === pages.currentPage && $(this).data('page-type') === 'page';
-            }).addClass(this.options.activeClass);
+            this.$listContainer.children().each(function () {
+                var $this = $(this),
+                    pageType = $this.data('page-type');
 
-            children.filter(function () {
-                return $(this).data('page-type') === 'first';
-            }).toggleClass(this.options.disabledClass, pages.currentPage === 1);
+                switch (pageType) {
+                    case 'page':
+                        if ($this.data('page') === pages.currentPage) {
+                            $this.addClass(that.options.activeClass);
+                        }
+                        break;
+                    case 'first':
+                            $this.toggleClass(that.options.disabledClass, pages.currentPage === 1);
+                        break;
+                    case 'last':
+                            $this.toggleClass(that.options.disabledClass, pages.currentPage === that.options.totalPages);
+                        break;
+                    case 'prev':
+                            $this.toggleClass(that.options.disabledClass, !that.options.loop && pages.currentPage === 1);
+                        break;
+                    case 'next':
+                            $this.toggleClass(that.options.disabledClass,
+                                !that.options.loop && pages.currentPage === that.options.totalPages);
+                        break;
+                    default:
+                        break;
+                }
 
-            children.filter(function () {
-                return $(this).data('page-type') === 'last';
-            }).toggleClass(this.options.disabledClass, pages.currentPage === this.options.totalPages);
-
-            children.filter(function () {
-                return $(this).data('page-type') === 'prev';
-            }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === 1);
-
-            children.filter(function () {
-                return $(this).data('page-type') === 'next';
-            }).toggleClass(this.options.disabledClass, !this.options.loop && pages.currentPage === this.options.totalPages);
+            });
         },
 
         setupEvents: function () {
@@ -254,6 +267,7 @@
         totalPages: 0,
         startPage: 1,
         visiblePages: 5,
+        initiateStartPageClick: true,
         href: false,
         hrefVariable: '{{number}}',
         first: 'First',
