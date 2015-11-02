@@ -18,5 +18,25 @@ $(document).ready(function () {
             $('#sync-example-page-content').text('Page ' + page);
         }
     });
+
+    $('#not-spa-demo').twbsPagination({
+        totalPages: 15,
+        visiblePages: 5,
+        href: "?a=&page={{number}}&c=d",
+        onPageClick: function (event, page) {
+            console.info(page);
+            $('#not-spa-demo-content').text('Page ' + page);
+        }
+    });
+
+    $('#not-spa-demo-2').twbsPagination({
+        totalPages: 15,
+        visiblePages: 5,
+        href: "#page={{pageNumber}}&c=d",
+        hrefVariable: '{{pageNumber}}',
+        onPageClick: function (event, page) {
+            $('#not-spa-demo-content-2').text('Page ' + page);
+        }
+    });
 });
 

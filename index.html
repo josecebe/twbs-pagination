@@ -89,9 +89,10 @@
             <p>
 
             <ul>Options explanation and default values:
-                <li><code>totalPages</code> the number of pages (required, checked)</li>
-                <li><code>startPage</code> the current page that show on start(default: 1)</li>
-                <li><code>visiblePages</code> maximum visible pages (default: 5)</li>
+                <li><code>totalPages</code> the number of pages (required)</li>
+                <li><code>startPage</code> the current page that show on start(default: <code>1</code>)</li>
+                <li><code>visiblePages</code> maximum visible pages (default: <code>5</code>)</li>
+                <li><code>initiateStartPageClick</code> fire onclick event at start page on plugin initialization (default <code>true</code>)</li>
                 <li><code>href</code> template for pagination links (default <code>false</code>)</li>
                 <li><code>hrefVariable</code> variable name in href template for page number (default
                     <code>{{number}}</code>)
@@ -160,6 +161,50 @@
                 <div id="sync-example-page-content" class="well">Page 1</div>
                 <ul class="sync-pagination pagination-sm"></ul>
             </div>
+
+            <h4>Using <code>href</code> and <code>hrefVariable</code> options / Example 1</h4>
+
+            <p>Warning! <br />
+                Page has been reload
+            </p>
+
+            <p>We do develop not always SAP (single page app). In that case you should have use this
+                <code>options</code></p>
+
+            <div id="not-spa-demo-content" class="well">Page 1</div>
+            <div class="text-center">
+                <ul id="not-spa-demo" class="pagination-sm"></ul>
+            </div>
+
+            <p>Piece of code:</p>
+            <pre><code class="highlight">   $(selector).twbsPagination({
+        totalPages: <span class="il">15</span>,
+        visiblePages: <span class="il">5</span> ,
+        href: <span class="s">'?a=&page={{number}}&c=d'</span> ,
+        onPageClick: function (event, page) {
+            $(<span class="s">'#not-spa-demo-content'</span>).text('Page ' + page);
+        }
+    });
+            </code></pre>
+
+            <h4>Using <code>href</code> and <code>hrefVariable</code> options / Example 2</h4>
+
+            <div id="not-spa-demo-content-2" class="well">Page 1</div>
+            <div class="text-center">
+                <ul id="not-spa-demo-2" class="pagination-sm"></ul>
+            </div>
+
+            <p>Piece of code:</p>
+            <pre><code class="highlight">   $(selector).twbsPagination({
+        totalPages: <span class="il">15</span>,
+        visiblePages: <span class="il">5</span>,
+        href: <span class="s">'#page={{pageNumber}}&c=d'</span>,
+        hrefVariable: <span class="s">'{{pageNumber}}'</span>,
+        onPageClick: function (event, page) {
+            ...
+        }
+    });
+            </code></pre>
 
             <h3>
                 <a id="license" class="anchor" href="#license"><span
