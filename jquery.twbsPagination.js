@@ -42,7 +42,7 @@
 
         if (this.options.href) {
             var match, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
-            regexp = regexp.replace(this.options.hrefVariable, '(\\d+)');
+            regexp = regexp.replace(this.options.pageVariable, '(\\d+)');
             if ((match = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
                 this.options.startPage = parseInt(match[1], 10);
             }
