@@ -99,31 +99,31 @@
         },
 
         buildListItems: function (pages) {
-            var $listItems = $();
+            var listItems = [];
 
             if (this.options.first) {
-                $listItems = $listItems.add(this.buildItem('first', 1));
+                listItems.push(this.buildItem('first', 1));
             }
 
             if (this.options.prev) {
                 var prev = pages.currentPage > 1 ? pages.currentPage - 1 : this.options.loop ? this.options.totalPages  : 1;
-                $listItems = $listItems.add(this.buildItem('prev', prev));
+                listItems.push(this.buildItem('prev', prev));
             }
 
             for (var i = 0; i < pages.numeric.length; i++) {
-                $listItems = $listItems.add(this.buildItem('page', pages.numeric[i]));
+                listItems.push(this.buildItem('page', pages.numeric[i]));
             }
 
             if (this.options.next) {
                 var next = pages.currentPage < this.options.totalPages ? pages.currentPage + 1 : this.options.loop ? 1 : this.options.totalPages;
-                $listItems = $listItems.add(this.buildItem('next', next));
+                listItems.push(this.buildItem('next', next));
             }
 
             if (this.options.last) {
-                $listItems = $listItems.add(this.buildItem('last', this.options.totalPages));
+                listItems.push(this.buildItem('last', this.options.totalPages));
             }
 
-            return $listItems;
+            return listItems;
         },
 
         buildItem: function (type, page) {
