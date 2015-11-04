@@ -6,7 +6,6 @@
  * Released under Apache 2.0 license
  * http://apache.org/licenses/LICENSE-2.0.html
  */
-;
 (function ($, window, document, undefined) {
 
     'use strict';
@@ -38,14 +37,14 @@
         }
 
         if (this.options.onPageClick instanceof Function) {
-            this.$element.first().bind('page', this.options.onPageClick);
+            this.$element.first().on('page', this.options.onPageClick);
         }
 
         if (this.options.href) {
-            var m, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
+            var match, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
             regexp = regexp.replace(this.options.hrefVariable, '(\\d+)');
-            if ((m = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
-                this.options.startPage = parseInt(m[1], 10);
+            if ((match = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
+                this.options.startPage = parseInt(match[1], 10);
             }
         }
 
@@ -81,7 +80,8 @@
         destroy: function () {
             this.$element.empty();
             this.$element.removeData('twbs-pagination');
-            this.$element.unbind('page');
+            this.$element.off('page');
+
             return this;
         },
 
@@ -94,6 +94,7 @@
             this.setupEvents();
 
             this.$element.trigger('page', page);
+
             return this;
         },
 
@@ -126,39 +127,40 @@
         },
 
         buildItem: function (type, page) {
-            var itemContainer = $('<li></li>'),
-                itemContent = $('<a></a>'),
+            var $itemContainer = $('<li></li>'),
+                $itemContent = $('<a></a>'),
                 itemText = null;
 
             switch (type) {
                 case 'page':
                     itemText = page;
-                    itemContainer.addClass(this.options.pageClass);
+                    $itemContainer.addClass(this.options.pageClass);
                     break;
                 case 'first':
                     itemText = this.options.first;
-                    itemContainer.addClass(this.options.firstClass);
+                    $itemContainer.addClass(this.options.firstClass);
                     break;
                 case 'prev':
                     itemText = this.options.prev;
-                    itemContainer.addClass(this.options.prevClass);
+                    $itemContainer.addClass(this.options.prevClass);
                     break;
                 case 'next':
                     itemText = this.options.next;
-                    itemContainer.addClass(this.options.nextClass);
+                    $itemContainer.addClass(this.options.nextClass);
                     break;
                 case 'last':
                     itemText = this.options.last;
-                    itemContainer.addClass(this.options.lastClass);
+                    $itemContainer.addClass(this.options.lastClass);
                     break;
                 default:
                     break;
             }
 
-            itemContainer.data('page', page);
-            itemContainer.data('page-type', type);
-            itemContainer.append(itemContent.attr('href', this.makeHref(page)).html(itemText));
-            return itemContainer;
+            $itemContainer.data('page', page);
+            $itemContainer.data('page-type', type);
+            $itemContainer.append($itemContent.attr('href', this.makeHref(page)).html(itemText));
+
+            return $itemContainer;
         },
 
         getPages: function (currentPage) {
@@ -188,7 +190,7 @@
         },
 
         render: function (pages) {
-            var that = this;
+            var _this = this;
             this.$listContainer.children().remove();
             this.$listContainer.append(this.buildListItems(pages));
 
@@ -199,21 +201,21 @@
                 switch (pageType) {
                     case 'page':
                         if ($this.data('page') === pages.currentPage) {
-                            $this.addClass(that.options.activeClass);
+                            $this.addClass(_this.options.activeClass);
                         }
                         break;
                     case 'first':
-                            $this.toggleClass(that.options.disabledClass, pages.currentPage === 1);
+                            $this.toggleClass(_this.options.disabledClass, pages.currentPage === 1);
                         break;
                     case 'last':
-                            $this.toggleClass(that.options.disabledClass, pages.currentPage === that.options.totalPages);
+                            $this.toggleClass(_this.options.disabledClass, pages.currentPage === _this.options.totalPages);
                         break;
                     case 'prev':
-                            $this.toggleClass(that.options.disabledClass, !that.options.loop && pages.currentPage === 1);
+                            $this.toggleClass(_this.options.disabledClass, !_this.options.loop && pages.currentPage === 1);
                         break;
                     case 'next':
-                            $this.toggleClass(that.options.disabledClass,
-                                !that.options.loop && pages.currentPage === that.options.totalPages);
+                            $this.toggleClass(_this.options.disabledClass,
+                                !_this.options.loop && pages.currentPage === _this.options.totalPages);
                         break;
                     default:
                         break;
@@ -223,20 +225,18 @@
         },
 
         setupEvents: function () {
-            var base = this;
+            var _this = this;
             this.$listContainer.find('li').each(function () {
                 var $this = $(this);
                 $this.off();
-                if ($this.hasClass(base.options.disabledClass) || $this.hasClass(base.options.activeClass)) {
-                    $this.click(function (evt) {
-                        evt.preventDefault();
-                    });
+                if ($this.hasClass(_this.options.disabledClass) || $this.hasClass(_this.options.activeClass)) {
+                    $this.on('click', false);
                     return;
                 }
                 $this.click(function (evt) {
                     // Prevent click event if href is not set.
-                    !base.options.href && evt.preventDefault();
-                    base.show(parseInt($this.data('page'), 10));
+                    !_this.options.href && evt.preventDefault();
+                    _this.show(parseInt($this.data('page')));
                 });
             });
         },
@@ -293,4 +293,4 @@
         return this;
     };
 
-})(jQuery, window, document);
+})(window.jQuery, window, document);
