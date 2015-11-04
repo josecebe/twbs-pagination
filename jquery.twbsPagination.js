@@ -132,7 +132,7 @@
                 $itemContent = $('<a></a>'),
                 itemText = null;
 
-            itemText = this.options[type] ? this.makeText(this.options[type]) : page;
+            itemText = this.options[type] ? this.makeText(this.options[type], page) : page;
             $itemContainer.addClass(this.options[type + 'Class']);
             $itemContainer.data('page', page);
             $itemContainer.data('page-type', type);
@@ -254,6 +254,7 @@
         href: false,
         pageVariable: '{{page}}',
         totalPagesVariable: '{{total_pages}}',
+        page: '{{page}}',
         first: 'First',
         prev: 'Previous',
         next: 'Next',
