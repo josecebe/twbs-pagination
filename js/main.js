@@ -24,7 +24,6 @@ $(document).ready(function () {
         visiblePages: 5,
         href: "?a=&page={{number}}&c=d",
         onPageClick: function (event, page) {
-            console.info(page);
             $('#not-spa-demo-content').text('Page ' + page);
         }
     });
