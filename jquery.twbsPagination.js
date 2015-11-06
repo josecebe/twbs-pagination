@@ -254,7 +254,7 @@
         href: false,
         pageVariable: '{{page}}',
         totalPagesVariable: '{{total_pages}}',
-        page: '{{page}}',
+        page: null,
         first: 'First',
         prev: 'Previous',
         next: 'Next',
