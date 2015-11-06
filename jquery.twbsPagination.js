@@ -63,11 +63,11 @@
             this.$element.append(this.$listContainer);
         }
 
-        this.render(this.getPages(this.options.startPage));
-        this.setupEvents();
-
         if (this.options.initiateStartPageClick) {
-            this.$element.trigger('page', this.options.startPage);
+            this.show(this.options.startPage);
+        } else {
+            this.render(this.getPages(this.options.startPage));
+            this.setupEvents();
         }
 
         return this;
@@ -192,7 +192,10 @@
         render: function (pages) {
             var _this = this;
             this.$listContainer.children().remove();
-            this.$listContainer.append(this.buildListItems(pages));
+            var items = this.buildListItems(pages);
+            jQuery.each(items, function(key, item){
+                _this.$listContainer.append(item);
+            });
 
             this.$listContainer.children().each(function () {
                 var $this = $(this),
