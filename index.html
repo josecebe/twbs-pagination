@@ -94,8 +94,8 @@
                 <li><code>visiblePages</code> maximum visible pages (default: <code>5</code>)</li>
                 <li><code>initiateStartPageClick</code> fire onclick event at start page on plugin initialization (default <code>true</code>)</li>
                 <li><code>href</code> template for pagination links (default <code>false</code>)</li>
-                <li><code>hrefVariable</code> variable name in href template for page number (default
-                    <code>{{number}}</code>)
+                <li><code>pageVariable</code> variable name in template for page number (default
+                    <code>{{page}}</code>)
                 </li>
                 <li><code>first</code> text label (default: <code class="highlight"><span
                         class="s">'First'</span></code>)
@@ -133,7 +133,7 @@
             <pre><code class="highlight">    $(selector).twbsPagination({
         totalPages: <span class="il">35</span>,
         visiblePages: <span class="il">8</span>,
-        href: <span class="s">'?page={{number}}'</span>
+        href: <span class="s">'?page={{page}}'</span>
     });</code></pre>
 
             <h4>Visible pages option</h4>
@@ -180,14 +180,14 @@
             <pre><code class="highlight">   $(selector).twbsPagination({
         totalPages: <span class="il">15</span>,
         visiblePages: <span class="il">5</span> ,
-        href: <span class="s">'?a=&page={{number}}&c=d'</span> ,
+        href: <span class="s">'?a=&page={{page}}&c=d'</span> ,
         onPageClick: function (event, page) {
             $(<span class="s">'#not-spa-demo-content'</span>).text('Page ' + page);
         }
     });
             </code></pre>
 
-            <h4>Using <code>href</code> and <code>hrefVariable</code> options / Example 2</h4>
+            <h4>Using <code>href</code> and custom <code>pageVariable</code> options / Example 2</h4>
 
             <div id="not-spa-demo-content-2" class="well">Page 1</div>
             <div class="text-center">
@@ -198,8 +198,27 @@
             <pre><code class="highlight">   $(selector).twbsPagination({
         totalPages: <span class="il">15</span>,
         visiblePages: <span class="il">5</span>,
-        href: <span class="s">'#page={{pageNumber}}&c=d'</span>,
-        hrefVariable: <span class="s">'{{pageNumber}}'</span>,
+        href: <span class="s">'#page={{pg}}&c=d'</span>,
+        pageVariable: <span class="s">'{{pg}}'</span>,
+        onPageClick: function (event, page) {
+            ...
+        }
+    });
+            </code></pre>
+
+            <h4>Using template variables {{page}} and {{total_pages}} in buttons</h4>
+
+            <div id="not-spa-demo-content-3" class="well">Page 1</div>
+            <div class="text-center">
+                <ul id="not-spa-demo-3" class="pagination-sm"></ul>
+            </div>
+
+            <p>Piece of code:</p>
+            <pre><code class="highlight">   $(selector).twbsPagination({
+        totalPages: <span class="il">15</span>,
+        visiblePages: <span class="il">5</span>,
+        href: <span class="s">'#page={{page}}&total={{total_pages}}'</span>,
+        page: <span class="s">'[{{page}}]'</span>,
         onPageClick: function (event, page) {
             ...
         }
@@ -210,7 +229,7 @@
                 <a id="license" class="anchor" href="#license"><span
                         class="octicon octicon-link"></span></a>License</h3>
 
-            <p>Copyright 2014 Eugene Simakin</p>
+            <p>Copyright 2014-2015 Eugene Simakin</p>
             <p>
                 Licensed under the Apache License, Version 2.0 (the "License");
                 you may not use this file except in compliance with the License.

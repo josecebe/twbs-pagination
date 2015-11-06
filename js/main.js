@@ -22,7 +22,7 @@ $(document).ready(function () {
     $('#not-spa-demo').twbsPagination({
         totalPages: 15,
         visiblePages: 5,
-        href: "?a=&page={{number}}&c=d",
+        href: "?a=&page={{page}}&c=d",
         onPageClick: function (event, page) {
             $('#not-spa-demo-content').text('Page ' + page);
         }
@@ -31,10 +31,21 @@ $(document).ready(function () {
     $('#not-spa-demo-2').twbsPagination({
         totalPages: 15,
         visiblePages: 5,
-        href: "#page={{pageNumber}}&c=d",
-        hrefVariable: '{{pageNumber}}',
+        href: "#page={{pg}}&c=d",
+        pageVariable: '{{pg}}',
         onPageClick: function (event, page) {
             $('#not-spa-demo-content-2').text('Page ' + page);
+        }
+    });
+
+    $('#not-spa-demo-3').twbsPagination({
+        totalPages: 15,
+        visiblePages: 5,
+        last: 'Last [{{total_pages}}]',
+        page: '{{page}}',
+        href: '#page={{page}}',
+        onPageClick: function (event, page) {
+            $('#not-spa-demo-content-3').text('Page ' + page);
         }
     });
 });
