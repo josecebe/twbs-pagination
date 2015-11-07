@@ -37,5 +37,34 @@ $(document).ready(function () {
             $('#not-spa-demo-content-2').text('Page ' + page);
         }
     });
+
+    $('#page-ex-1').twbsPagination({
+        totalPages: 5,
+        visiblePages: 0,
+        first: false,
+        last: false,
+        nextClass: '',
+        prevClass: '',
+        paginationClass: 'pager',
+        onPageClick: function (event, page) {
+            $('#page-ex-content-1').text('Page ' + page);
+        }
+    });
+
+    $('#page-ex-2').twbsPagination({
+        totalPages: 5,
+        visiblePages: 0,
+        first: false,
+        last: false,
+        prev: '&larr; Older',
+        next: 'Newer &rarr;',
+        nextClass: 'next',
+        prevClass: 'previous',
+        paginationClass: 'pager',
+        onPageClick: function (event, page) {
+            $('#page-ex-content-2').text('Page ' + page);
+        }
+    });
+
 });
 
