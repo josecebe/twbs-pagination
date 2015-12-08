@@ -22,6 +22,6 @@
         "jQuery-plugin",
         "bootstrap"
     ],
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "licenseUrl": "http://apache.org/licenses/LICENSE-2.0.html"
 }
