@@ -137,6 +137,7 @@
             $itemContainer.data('page', page);
             $itemContainer.data('page-type', type);
             $itemContainer.append($itemContent.attr('href', this.makeHref(page)).html(itemText));
+            $itemContainer.append($itemContent.attr('href', this.makeHref(page)).addClass(this.options.anchorClass).html(itemText));
 
             return $itemContainer;
         },
@@ -272,6 +273,8 @@
         pageClass: 'page',
         activeClass: 'active',
         disabledClass: 'disabled'
+        disabledClass: 'disabled',
+        anchorClass: 'page-link'
     };
 
     $.fn.twbsPagination.Constructor = TwbsPagination;
