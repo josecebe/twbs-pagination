@@ -271,7 +271,6 @@
         firstClass: 'first',
         pageClass: 'page',
         activeClass: 'active',
-        disabledClass: 'disabled'
         disabledClass: 'disabled',
         anchorClass: 'page-link'
     };
