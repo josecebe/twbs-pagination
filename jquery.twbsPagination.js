@@ -282,4 +282,6 @@
         return this;
     };
 
+    $.fn.twbsPagination.version = "1.4";
+
 })(window.jQuery, window, document);
