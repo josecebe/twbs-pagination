@@ -89,6 +89,7 @@
             if (page < 1 || page > this.options.totalPages) {
                 throw new Error('Page is incorrect.');
             }
+            this.currentPage = page;
 
             this.render(this.getPages(page));
             this.setupEvents();
