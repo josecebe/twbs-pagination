@@ -101,25 +101,24 @@
         buildListItems: function (pages) {
             var listItems = [];
 
-            // Add "first" page button
             if (this.options.first) {
                 listItems.push(this.buildItem('first', 1));
             }
-            // Add "previous" page button
+
             if (this.options.prev) {
                 var prev = pages.currentPage > 1 ? pages.currentPage - 1 : this.options.loop ? this.options.totalPages  : 1;
                 listItems.push(this.buildItem('prev', prev));
             }
-            // Add "pages"
+
             for (var i = 0; i < pages.numeric.length; i++) {
                 listItems.push(this.buildItem('page', pages.numeric[i]));
             }
-            // Add "next" page button
+
             if (this.options.next) {
                 var next = pages.currentPage < this.options.totalPages ? pages.currentPage + 1 : this.options.loop ? 1 : this.options.totalPages;
                 listItems.push(this.buildItem('next', next));
             }
-            // Add "last" page button
+
             if (this.options.last) {
                 listItems.push(this.buildItem('last', this.options.totalPages));
             }
@@ -130,9 +129,8 @@
         buildItem: function (type, page) {
             var $itemContainer = $('<li></li>'),
                 $itemContent = $('<a></a>'),
-                itemText = null;
+                itemText = this.options[type] ? this.makeText(this.options[type], page) : page;
 
-            itemText = this.options[type] ? this.makeText(this.options[type], page) : page;
             $itemContainer.addClass(this.options[type + 'Class']);
             $itemContainer.data('page', page);
             $itemContainer.data('page-type', type);
