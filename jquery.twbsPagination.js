@@ -32,6 +32,11 @@
             throw new Error('Visible pages option is not correct!');
         }
 
+        // hide if only one page exists
+        if (this.options.totalPages == 1) {
+            return this;
+        }
+
         if (this.options.totalPages < this.options.visiblePages) {
             this.options.visiblePages = this.options.totalPages;
         }
