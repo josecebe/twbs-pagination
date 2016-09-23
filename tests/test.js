@@ -87,12 +87,12 @@
             totalPages: 3,
             visiblePages: 5
         });
-        equal(pag1.find('.page').length, 3);
+        equal(pag1.find('.page-item').length, 7);
         equal(pag1.find('.next').length, 1);
         equal(pag1.find('.prev').length, 1);
         equal(pag1.find('.last').length, 1);
         equal(pag1.find('.first').length, 1);
-        equal(pag1.find('.page.active').length, 1);
+        equal(pag1.find('.page-item.active').length, 1);
         equal(pag1.find('.prev.disabled').length, 1);
         equal(pag1.find('.first.disabled').length, 1);
     });
@@ -125,7 +125,7 @@
         pag1.twbsPagination({
             totalPages: 2
         });
-        equal(pag1.find('.page:eq(0)').text(), '1');
+        equal(pag1.find('.page-item:eq(2)').text(), '1');
         equal(pag1.find('.next').text(), 'Next');
         equal(pag1.find('.prev').text(), 'Previous');
         equal(pag1.find('.first').text(), 'First');
@@ -142,7 +142,7 @@
             next: '>>',
             last: '(last)[{{total_pages}}]'
         });
-        equal(pag1.find('.page:eq(0)').text(), '[1]');
+        equal(pag1.find('.page-item:eq(2)').text(), '[1]');
         equal(pag1.find('.next').text(), '>>');
         equal(pag1.find('.prev').text(), '<<');
         equal(pag1.find('.first').text(), '(first)');
