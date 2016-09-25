@@ -46,10 +46,9 @@
         }
 
         if (this.options.href) {
-            var match, regexp = this.options.href.replace(/[-\/\\^$*+?.|[\]]/g, '\\$&');
-            regexp = regexp.replace(this.options.pageVariable, '(\\d+)');
-            if ((match = new RegExp(regexp, 'i').exec(window.location.href)) != null) {
-                this.options.startPage = parseInt(match[1], 10);
+            this.options.startPage = this.getPageFromQueryString();
+            if (!this.options.startPage) {
+                this.options.startPage = 1;
             }
         }
 
@@ -227,12 +226,41 @@
         },
 
         makeHref: function (page) {
-            return this.options.href ? this.makeText(this.options.href, page) : "#";
+            return this.options.href ? this.generateQueryString(page) : "#";
         },
 
         makeText: function (text, page) {
             return text.replace(this.options.pageVariable, page)
                 .replace(this.options.totalPagesVariable, this.options.totalPages)
+        },
+        getPageFromQueryString: function (searchStr) {
+            var search = this.getSearchString(searchStr),
+                regex = new RegExp(this.options.pageVariable + '(=([^&#]*)|&|#|$)'),
+                page = regex.exec(search);
+            if (!page || !page[2]) {
+                return null;
+            }
+            page = decodeURIComponent(page[2]);
+            page = parseInt(page);
+            if (isNaN(page)) {
+                return null;
+            }
+            return page;
+        },
+        generateQueryString: function (pageNumber, searchStr) {
+            var search = this.getSearchString(searchStr),
+                regex = new RegExp(this.options.pageVariable + '=*[^&#]*');
+            if (!search) return '';
+            return '?' + search.replace(regex, this.options.pageVariable + '=' + pageNumber);
+
+        },
+        getSearchString: function (searchStr) {
+            var search = searchStr || window.location.search;
+            if (search === '') {
+                return null;
+            }
+            if (search.indexOf('?') === 0) search = search.substr(1);
+            return search;
         }
 
     };

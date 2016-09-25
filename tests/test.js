@@ -149,4 +149,36 @@
         equal(pag1.find('.last').text(), '(last)[2]');
     });
 
+    QUnit.test("Test 'getPageFromQueryString' method", function () {
+        pag1.twbsPagination('destroy');
+        pag1.twbsPagination({pageVariable: 'page'});
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page=1'), 1);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page='), null);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page'), null);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?'), null);
+        equal(pag1.twbsPagination('getPageFromQueryString', ''), null)
+        ;
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page=2'), 2);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page=3&param=taram'), 3);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page=4&param=test&opilki'), 4);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?page=5&param=test or not&opilki='), 5);
+        equal(pag1.twbsPagination('getPageFromQueryString', '?ID=1&keyWord=net&page=6'), 6);
+    });
+
+    QUnit.test("Test 'generateQueryString' method", function () {
+        pag1.twbsPagination('destroy');
+        pag1.twbsPagination({pageVariable: 'page'});
+        equal(pag1.twbsPagination('generateQueryString', 1, '?page=1'), '?page=1');
+        equal(pag1.twbsPagination('generateQueryString', 1, '?page='), '?page=1');
+        equal(pag1.twbsPagination('generateQueryString', 1, '?page'), '?page=1');
+        equal(pag1.twbsPagination('generateQueryString', 1, '?'), '');
+        equal(pag1.twbsPagination('generateQueryString', 1, ''), window.location.search);
+
+        equal(pag1.twbsPagination('generateQueryString', 2, '?page=1'), '?page=2');
+        equal(pag1.twbsPagination('generateQueryString', 3, '?page=2&param=taram'), '?page=3&param=taram');
+        equal(pag1.twbsPagination('generateQueryString', 4, '?page=3&param=test&opilki'), '?page=4&param=test&opilki');
+        equal(pag1.twbsPagination('generateQueryString', 5, '?page=4&param=test or not&opilki='), '?page=5&param=test or not&opilki=');
+        equal(pag1.twbsPagination('generateQueryString', 6, '?ID=1&keyWord=net&page=50'), '?ID=1&keyWord=net&page=6');
+    });
+
 })(window.jQuery);

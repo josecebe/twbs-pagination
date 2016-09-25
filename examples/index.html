@@ -19,6 +19,8 @@
         var obj = $('#pagination').twbsPagination({
             totalPages: 35,
             visiblePages: 10,
+            href: true,
+            pageVariable: 'page',
             onPageClick: function (event, page) {
                 console.info(page);
             }
