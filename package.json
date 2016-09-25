@@ -1,7 +1,7 @@
 {
     "name": "twbs-pagination",
     "nativeName": "jQuery Bootstrap Pagination",
-    "version": "1.3.1",
+    "version": "1.4.0",
     "homepage": "https://github.com/esimakin/twbs-pagination",
     "author": "Eugene Simakin <eugenesimakin@mail.ru>",
     "description": "jQuery simple pagination plugin for bootstrap-style webpages",
@@ -26,6 +26,6 @@
         "jQuery-plugin",
         "bootstrap"
     ],
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "licenseUrl": "http://apache.org/licenses/LICENSE-2.0.html"
 }
