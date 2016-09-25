@@ -210,18 +210,14 @@
 
         setupEvents: function () {
             var _this = this;
-            this.$listContainer.find('li').each(function () {
+            this.$listContainer.off('click').on('click', 'li', function (evt) {
                 var $this = $(this);
-                $this.off();
                 if ($this.hasClass(_this.options.disabledClass) || $this.hasClass(_this.options.activeClass)) {
-                    $this.on('click', false);
-                    return;
+                    return false;
                 }
-                $this.click(function (evt) {
-                    // Prevent click event if href is not set.
-                    !_this.options.href && evt.preventDefault();
-                    _this.show(parseInt($this.data('page')));
-                });
+                // Prevent click event if href is not set.
+                !_this.options.href && evt.preventDefault();
+                _this.show(parseInt($this.data('page')));
             });
         },
 
