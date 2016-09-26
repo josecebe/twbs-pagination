@@ -7,20 +7,51 @@
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic" rel="stylesheet"
           type="text/css">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href='//fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/pygment_trac.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print"/>
 
-    <script src="//code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/jquery.twbsPagination.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+        table {
+            color: #333; /* Lighten up font color */
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        td, th {
+            text-align: center;
+            border: 1px solid #CCC;
+            height: 30px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        th {
+            background: #F3F3F3; /* Light grey background */
+            font-weight: bold; /* Make sure they're bold */
+        }
+
+        td {
+            background: #FAFAFA; /* Lighter grey background */
+            text-align: center; /* Center our text */
+        }
+
+        tr td:nth-child(1),
+        tr td:nth-child(2) {
+            text-align: left;
+        }
+    </style>
 
     <title>jQuery Pagination plugin</title>
 </head>
@@ -80,76 +111,170 @@
     });</code></pre>
 
             <p>And HTML code:</p>
-            <pre><code class="highlight">    &lt;<span class="nt">ul</span> <span class="na">id</span>=<span class="s">&quot;pagination-demo&quot;</span><span class="na"> class</span>=<span class="s">&quot;pagination-sm&quot;</span>&gt;&lt;/<span class="nt">ul</span>&gt;</code></pre>
+            <pre><code class="highlight">    &lt;<span class="nt">ul</span> <span class="na">id</span>=<span
+                    class="s">&quot;pagination-demo&quot;</span><span class="na"> class</span>=<span class="s">&quot;pagination-sm&quot;</span>&gt;&lt;/<span
+                    class="nt">ul</span>&gt;</code></pre>
 
             <h3>
                 <a id="options-and-events" class="anchor" href="#options-and-events"><span
-                        class="octicon octicon-link"></span></a>Options and events</h3>
+                        class="octicon octicon-link"></span></a>Options explanation</h3>
 
             <p>
 
-            <ul>Options explanation and default values:
-                <li><code>totalPages</code> the number of pages (required)</li>
-                <li><code>startPage</code> the current page that show on start(default: <code>1</code>)</li>
-                <li><code>visiblePages</code> maximum visible pages (default: <code>5</code>)</li>
-                <li><code>initiateStartPageClick</code> fire onclick event at start page on plugin initialization (default <code>true</code>)</li>
-                <li><code>href</code> template for pagination links (default <code>false</code>)</li>
-                <li><code>hrefVariable</code> variable name in href template for page number (default
-                    <code>{{number}}</code>)
-                </li>
-                <li><code>first</code> text label (default: <code class="highlight"><span
-                        class="s">'First'</span></code>)
-                </li>
-                <li><code>prev</code> text label (default: <code class="highlight"><span
-                        class="s">'Previous'</span></code>)
-                </li>
-                <li><code>next</code> text label (default: <code class="highlight"><span class="s">'Next'</span></code>)
-                </li>
-                <li><code>last</code> text label (default: <code class="highlight"><span class="s">'Last'</span></code>)
-                </li>
-                <li><code>loop</code> carousel-style pagination (default: <code class="highlight">false</code>)</li>
-                <li><code>paginationClass</code> the root style for pagination component (default: <code
-                        class="highlight"><span class="s">'pagination'</span></code>).
-                    You can use this option to apply your own style
-                </li>
-            </ul>
-            <ul>Available event:
-                <li><code>onPageClick</code> callback function
-                    <ul>Function parameters
-                        <li><code>event</code> object</li>
-                        <li><code>page</code> the number of page</li>
-                    </ul>
-                </li>
-            </ul>
-            </p>
+            <table>
+                <thead>
+                <tr>
+                    <th>Option name</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Default value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>totalPages</code></td>
+                    <td>The number of pages</td>
+                    <td>Number</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><code>startPage</code></td>
+                    <td>The current page that show on start</td>
+                    <td>Number</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><code>visiblePages</code></td>
+                    <td>Max visible pages</td>
+                    <td>Number</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td><code>initiateStartPageClick</code></td>
+                    <td>Fire click at start page when plugin initialized</td>
+                    <td>Bool</td>
+                    <td><code>true</code></td>
+                </tr>
+                <tr>
+                    <td><code>href</code></td>
+                    <td>Generate query string or generate #</td>
+                    <td>Bool</td>
+                    <td><code>false</code></td>
+                </tr>
+                <tr>
+                    <td><code>pageVariable</code></td>
+                    <td>Template that will be replaced with page number</td>
+                    <td>String</td>
+                    <td><code>'{{page}}'</code></td>
+                </tr>
+                <tr>
+                    <td><code>totalPagesVariable</code></td>
+                    <td>Will be replaced with total pages number</td>
+                    <td>String</td>
+                    <td><code>'{{total_pages}}'</code></td>
+                </tr>
+                <tr>
+                    <td><code>page</code></td>
+                    <td>It can be used to customize page number label</td>
+                    <td>String</td>
+                    <td><code>null</code></td>
+                </tr>
+                <tr>
+                    <td><code>first</code></td>
+                    <td>Text label for the 'First' button</td>
+                    <td>String</td>
+                    <td><code>'First'</code></td>
+                </tr>
+                <tr>
+                    <td><code>prev</code></td>
+                    <td>Label for the 'Previous' button</td>
+                    <td>String</td>
+                    <td><code>'Previous'</code></td>
+                </tr>
+                <tr>
+                    <td><code>next</code></td>
+                    <td>Label for the 'Next' button</td>
+                    <td>String</td>
+                    <td><code>'Next'</code></td>
+                </tr>
+                <tr>
+                    <td><code>last</code></td>
+                    <td>Label for the 'Last' button</td>
+                    <td>String</td>
+                    <td><code>'Last'</code></td>
+                </tr>
+                <tr>
+                    <td><code>loop</code></td>
+                    <td>Carousel-style pagination</td>
+                    <td>Bool</td>
+                    <td><code>false</code></td>
+                </tr>
+                <tr>
+                    <td><code>onPageClick</code></td>
+                    <td>Callback on click event</td>
+                    <td>Function</td>
+                    <td><code>null</code></td>
+                </tr>
+                <tr>
+                    <td><code>paginationClass</code></td>
+                    <td>The root style for pagination component</td>
+                    <td>String</td>
+                    <td><code>'pagination'</code></td>
+                </tr>
+                <tr>
+                    <td><code>nextClass</code></td>
+                    <td>CSS class(es) for the 'Next' button</td>
+                    <td>String</td>
+                    <td><code>'page-item next'</code></td>
+                </tr>
+                <tr>
+                    <td><code>prevClass</code></td>
+                    <td>Class(es) for the 'Previous' button</td>
+                    <td>String</td>
+                    <td><code>'page-item prev'</code></td>
+                </tr>
+                <tr>
+                    <td><code>lastClass</code></td>
+                    <td>Class(es) for the 'Last' button</td>
+                    <td>String</td>
+                    <td><code>'page-item last'</code></td>
+                </tr>
+                <tr>
+                    <td><code>firstClass</code></td>
+                    <td>Class(es) for the 'First' button</td>
+                    <td>String</td>
+                    <td><code>'page-item first'</code></td>
+                </tr>
+                <tr>
+                    <td><code>pageClass</code></td>
+                    <td>Class(es) for the page buttons</td>
+                    <td>String</td>
+                    <td><code>'page-item'</code></td>
+                </tr>
+                <tr>
+                    <td><code>activeClass</code></td>
+                    <td>Class(es) for active button</td>
+                    <td>String</td>
+                    <td><code>'active'</code></td>
+                </tr>
+                <tr>
+                    <td><code>disabledClass</code></td>
+                    <td>Class(es) for the disabled button(s)</td>
+                    <td>String</td>
+                    <td><code>'disabled'</code></td>
+                </tr>
+                <tr>
+                    <td><code>anchorClass</code></td>
+                    <td>CSS class(es) for anchors inside buttons</td>
+                    <td>String</td>
+                    <td><code>'page-link'</code></td>
+                </tr>
+                </tbody>
+            </table>
 
             <h3>
                 <a id="examples" class="anchor" href="#examples"><span
                         class="octicon octicon-link"></span></a>Examples</h3>
-
-            <h4>URL page link</h4>
-
-            <p>You can specify url using <code>href</code> option:</p>
-            <pre><code class="highlight">    $(selector).twbsPagination({
-        totalPages: <span class="il">35</span>,
-        visiblePages: <span class="il">8</span>,
-        href: <span class="s">'?page={{number}}'</span>
-    });</code></pre>
-
-            <h4>Visible pages option</h4>
-
-            <p>The max number of visible pages specifies via <code>visiblePages</code> option. The following example
-                shows the 10 visible pages:</p>
-            <pre><code class="highlight">    $(selector).twbsPagination({
-        totalPages: <span class="il">35</span>,
-        visiblePages: <span class="il">10</span>,
-    });</code></pre>
-
-            <p>Note: this is normal size (without <code>pagination-sm</code>)</p>
-
-            <div class="text-center">
-                <ul id="visible-pages-example"></ul>
-            </div>
 
             <h4>Synchronized pagination elements</h4>
 
@@ -162,50 +287,6 @@
                 <ul class="sync-pagination pagination-sm"></ul>
             </div>
 
-            <h4>Using <code>href</code> and <code>hrefVariable</code> options / Example 1</h4>
-
-            <p>Warning! <br />
-                Page has been reload
-            </p>
-
-            <p>We do develop not always SAP (single page app). In that case you should have use this
-                <code>options</code></p>
-
-            <div id="not-spa-demo-content" class="well">Page 1</div>
-            <div class="text-center">
-                <ul id="not-spa-demo" class="pagination-sm"></ul>
-            </div>
-
-            <p>Piece of code:</p>
-            <pre><code class="highlight">   $(selector).twbsPagination({
-        totalPages: <span class="il">15</span>,
-        visiblePages: <span class="il">5</span> ,
-        href: <span class="s">'?a=&page={{number}}&c=d'</span> ,
-        onPageClick: function (event, page) {
-            $(<span class="s">'#not-spa-demo-content'</span>).text('Page ' + page);
-        }
-    });
-            </code></pre>
-
-            <h4>Using <code>href</code> and <code>hrefVariable</code> options / Example 2</h4>
-
-            <div id="not-spa-demo-content-2" class="well">Page 1</div>
-            <div class="text-center">
-                <ul id="not-spa-demo-2" class="pagination-sm"></ul>
-            </div>
-
-            <p>Piece of code:</p>
-            <pre><code class="highlight">   $(selector).twbsPagination({
-        totalPages: <span class="il">15</span>,
-        visiblePages: <span class="il">5</span>,
-        href: <span class="s">'#page={{pageNumber}}&c=d'</span>,
-        hrefVariable: <span class="s">'{{pageNumber}}'</span>,
-        onPageClick: function (event, page) {
-            ...
-        }
-    });
-            </code></pre>
-
             <h3>
                 <a id="license" class="anchor" href="#license"><span
                         class="octicon octicon-link"></span></a>License</h3>
@@ -216,7 +297,7 @@
                 you may not use this file except in compliance with the License.
                 You may obtain a copy of the License at</p>
 
-                <p><a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+            <p><a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0</a></p>
             <p>
                 Unless required by applicable law or agreed to in writing, software
                 distributed under the License is distributed on an "AS IS" BASIS,
@@ -231,7 +312,7 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active"><a href="#intro">Intro</a></li>
                     <li><a href="#demo">Demo</a>
-                    <li><a href="#options-and-events">Options and events</a>
+                    <li><a href="#options-and-events">Options explanation</a>
                     <li><a href="#examples">Examples</a>
                     <li><a href="#license">License</a>
                 </ul>
