@@ -23,4 +23,4 @@ For development use grunt build to make minified file.
 To use grunt install packages by using: npm install
 
 ## Demo and Docs
-For more information see [docs on github pages](http://esimakin.github.io/twbs-pagination/) (out of date since 26 september)
+For more information see [docs on github pages](http://esimakin.github.io/twbs-pagination/) (not completed yet)
