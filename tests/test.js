@@ -1,89 +1,66 @@
 (function ($) {
 
-    var pag1 = $('#pagination');
+    var pag1 = $('#pagination'),
+        destroyAndCreateWithOpts = function(elem, opts) {
+            elem.twbsPagination('destroy');
+            elem.twbsPagination(opts);
+        };
 
     QUnit.test("Test destroy called before initialization", function () {
         ok(pag1.twbsPagination('destroy'));
     });
 
     QUnit.test("Test 'getPages' method (EVEN visible pages number)", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 30
         });
 
-        var expected1 = {currentPage: 1, numeric: [1, 2, 3, 4, 5]};
-        deepEqual(pag1.twbsPagination('getPages', 1), expected1);
-        var expected2 = {currentPage: 2, numeric: [1, 2, 3, 4, 5]};
-        deepEqual(pag1.twbsPagination('getPages', 2), expected2);
-        var expected3 = {currentPage: 3, numeric: [1, 2, 3, 4, 5]};
-        deepEqual(pag1.twbsPagination('getPages', 3), expected3);
+        deepEqual(pag1.twbsPagination('getPages', 1), {currentPage: 1, numeric: [1, 2, 3, 4, 5]});
+        deepEqual(pag1.twbsPagination('getPages', 2), {currentPage: 2, numeric: [1, 2, 3, 4, 5]});
+        deepEqual(pag1.twbsPagination('getPages', 3), {currentPage: 3, numeric: [1, 2, 3, 4, 5]});
 
-        var expected4 = {currentPage: 4, numeric: [2, 3, 4, 5, 6]};
-        deepEqual(pag1.twbsPagination('getPages', 4), expected4);
-        var expected5 = {currentPage: 5, numeric: [3, 4, 5, 6, 7]};
-        deepEqual(pag1.twbsPagination('getPages', 5), expected5);
-        var expected20 = {currentPage: 20, numeric: [18, 19, 20, 21, 22]};
-        deepEqual(pag1.twbsPagination('getPages', 20), expected20);
+        deepEqual(pag1.twbsPagination('getPages', 4), {currentPage: 4, numeric: [2, 3, 4, 5, 6]});
+        deepEqual(pag1.twbsPagination('getPages', 5), {currentPage: 5, numeric: [3, 4, 5, 6, 7]});
+        deepEqual(pag1.twbsPagination('getPages', 20), {currentPage: 20, numeric: [18, 19, 20, 21, 22]});
 
-        var expected27 = {currentPage: 27, numeric: [25, 26, 27, 28, 29]};
-        deepEqual(pag1.twbsPagination('getPages', 27), expected27);
-        var expected28 = {currentPage: 28, numeric: [26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 28), expected28);
-        var expected29 = {currentPage: 29, numeric: [26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 29), expected29);
-        var expected30 = {currentPage: 30, numeric: [26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 30), expected30);
+        deepEqual(pag1.twbsPagination('getPages', 27), {currentPage: 27, numeric: [25, 26, 27, 28, 29]});
+        deepEqual(pag1.twbsPagination('getPages', 28), {currentPage: 28, numeric: [26, 27, 28, 29, 30]});
+        deepEqual(pag1.twbsPagination('getPages', 29), {currentPage: 29, numeric: [26, 27, 28, 29, 30]});
+        deepEqual(pag1.twbsPagination('getPages', 30), {currentPage: 30, numeric: [26, 27, 28, 29, 30]});
     });
 
     QUnit.test("Test 'getPages' method (ODD visible pages number)", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 30,
             visiblePages: 6
         });
 
-        var expected1 = {currentPage: 1, numeric: [1, 2, 3, 4, 5, 6]};
-        deepEqual(pag1.twbsPagination('getPages', 1), expected1);
-        var expected2 = {currentPage: 2, numeric: [1, 2, 3, 4, 5, 6]};
-        deepEqual(pag1.twbsPagination('getPages', 2), expected2);
-        var expected3 = {currentPage: 3, numeric: [1, 2, 3, 4, 5, 6]};
-        deepEqual(pag1.twbsPagination('getPages', 3), expected3);
+        deepEqual(pag1.twbsPagination('getPages', 1), {currentPage: 1, numeric: [1, 2, 3, 4, 5, 6]});
+        deepEqual(pag1.twbsPagination('getPages', 2), {currentPage: 2, numeric: [1, 2, 3, 4, 5, 6]});
+        deepEqual(pag1.twbsPagination('getPages', 3), {currentPage: 3, numeric: [1, 2, 3, 4, 5, 6]});
 
-        var expected4 = {currentPage: 4, numeric: [2, 3, 4, 5, 6, 7]};
-        deepEqual(pag1.twbsPagination('getPages', 4), expected4);
-        var expected5 = {currentPage: 5, numeric: [3, 4, 5, 6, 7, 8]};
-        deepEqual(pag1.twbsPagination('getPages', 5), expected5);
-        var expected20 = {currentPage: 20, numeric: [18, 19, 20, 21, 22, 23]};
-        deepEqual(pag1.twbsPagination('getPages', 20), expected20);
+        deepEqual(pag1.twbsPagination('getPages', 4), {currentPage: 4, numeric: [2, 3, 4, 5, 6, 7]});
+        deepEqual(pag1.twbsPagination('getPages', 5), {currentPage: 5, numeric: [3, 4, 5, 6, 7, 8]});
+        deepEqual(pag1.twbsPagination('getPages', 20), {currentPage: 20, numeric: [18, 19, 20, 21, 22, 23]});
 
-        var expected27 = {currentPage: 27, numeric: [25, 26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 27), expected27);
-        var expected28 = {currentPage: 28, numeric: [25, 26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 28), expected28);
-        var expected29 = {currentPage: 29, numeric: [25, 26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 29), expected29);
-        var expected30 = {currentPage: 30, numeric: [25, 26, 27, 28, 29, 30]};
-        deepEqual(pag1.twbsPagination('getPages', 30), expected30);
+        deepEqual(pag1.twbsPagination('getPages', 27), {currentPage: 27, numeric: [25, 26, 27, 28, 29, 30]});
+        deepEqual(pag1.twbsPagination('getPages', 28), {currentPage: 28, numeric: [25, 26, 27, 28, 29, 30]});
+        deepEqual(pag1.twbsPagination('getPages', 29), {currentPage: 29, numeric: [25, 26, 27, 28, 29, 30]});
+        deepEqual(pag1.twbsPagination('getPages', 30), {currentPage: 30, numeric: [25, 26, 27, 28, 29, 30]});
     });
 
     QUnit.test("Test 'getPages' method (total < visible)", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 3,
             visiblePages: 5
         });
-        var exp1 = {currentPage: 1, numeric: [1, 2, 3]};
-        deepEqual(pag1.twbsPagination('getPages', 1), exp1);
-        var exp2 = {currentPage: 2, numeric: [1, 2, 3]};
-        deepEqual(pag1.twbsPagination('getPages', 2), exp2);
-        var exp3 = {currentPage: 3, numeric: [1, 2, 3]};
-        deepEqual(pag1.twbsPagination('getPages', 3), exp3);
+        deepEqual(pag1.twbsPagination('getPages', 1), {currentPage: 1, numeric: [1, 2, 3]});
+        deepEqual(pag1.twbsPagination('getPages', 2), {currentPage: 2, numeric: [1, 2, 3]});
+        deepEqual(pag1.twbsPagination('getPages', 3), {currentPage: 3, numeric: [1, 2, 3]});
     });
 
     QUnit.test("Test classes appended for pagination", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 3,
             visiblePages: 5
         });
@@ -98,8 +75,7 @@
     });
 
     QUnit.test("Test custom classes appended for pagination", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 10,
             visiblePages: 5,
             pageClass: 'my-page',
@@ -121,8 +97,7 @@
     });
 
     QUnit.test("Test page numbers text", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 2
         });
         equal(pag1.find('.page-item:eq(2)').text(), '1');
@@ -133,8 +108,7 @@
     });
 
     QUnit.test("Test custom texts", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({
+        destroyAndCreateWithOpts(pag1, {
             totalPages: 2,
             page: '[{{page}}]',
             first: '(first)',
@@ -150,8 +124,7 @@
     });
 
     QUnit.test("Test 'getPageFromQueryString' method", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({pageVariable: 'page'});
+        destroyAndCreateWithOpts(pag1, {pageVariable: 'page'});
         equal(pag1.twbsPagination('getPageFromQueryString', '?page=1'), 1);
         equal(pag1.twbsPagination('getPageFromQueryString', '?page='), null);
         equal(pag1.twbsPagination('getPageFromQueryString', '?page'), null);
@@ -166,8 +139,7 @@
     });
 
     QUnit.test("Test 'generateQueryString' method", function () {
-        pag1.twbsPagination('destroy');
-        pag1.twbsPagination({pageVariable: 'page'});
+        destroyAndCreateWithOpts(pag1, {pageVariable: 'page'});
         equal(pag1.twbsPagination('generateQueryString', 1, '?page=1'), '?page=1');
         equal(pag1.twbsPagination('generateQueryString', 1, '?page='), '?page=1');
         equal(pag1.twbsPagination('generateQueryString', 1, '?page'), '?page=1');
@@ -179,6 +151,27 @@
         equal(pag1.twbsPagination('generateQueryString', 4, '?page=3&param=test&opilki'), '?page=4&param=test&opilki');
         equal(pag1.twbsPagination('generateQueryString', 5, '?page=4&param=test or not&opilki='), '?page=5&param=test or not&opilki=');
         equal(pag1.twbsPagination('generateQueryString', 6, '?ID=1&keyWord=net&page=50'), '?ID=1&keyWord=net&page=6');
+    });
+
+    QUnit.test("Test 'totalPages' option", function (assert) {
+        var page = null;
+
+        destroyAndCreateWithOpts(pag1, {onPageClick: function (evt, p) {
+            page = p;
+        }});
+        assert.equal(pag1.find('li').length, 5, 'Default options values');
+        assert.equal(page, 1);
+        page = null;
+
+        destroyAndCreateWithOpts(pag1, {
+            hideOnlyOnePage: true,
+            onPageClick: function (evt, p) {
+                page = p;
+            }
+        });
+        assert.equal(pag1.find('li').length, 0, 'Hide one page is corresponding option set as true');
+        assert.equal(page, 1);
+        page = null;
     });
 
 })(window.jQuery);
