@@ -1,5 +1,5 @@
 /*!
- * jQuery pagination plugin v1.4
+ * jQuery pagination plugin v1.4.1
  * http://esimakin.github.io/twbs-pagination/
  *
  * Copyright 2014-2016, Eugene Simakin
@@ -32,17 +32,18 @@
             throw new Error('Visible pages option is not correct!');
         }
 
+        if (this.options.onPageClick instanceof Function) {
+            this.$element.first().on('page', this.options.onPageClick);
+        }
+
         // hide if only one page exists
-        if (this.options.totalPages == 1) {
+        if (this.options.hideOnlyOnePage && this.options.totalPages == 1) {
+            this.$element.trigger('page', 1);
             return this;
         }
 
         if (this.options.totalPages < this.options.visiblePages) {
             this.options.visiblePages = this.options.totalPages;
-        }
-
-        if (this.options.onPageClick instanceof Function) {
-            this.$element.first().on('page', this.options.onPageClick);
         }
 
         if (this.options.href) {
@@ -282,6 +283,7 @@
         startPage: 1,
         visiblePages: 5,
         initiateStartPageClick: true,
+        hideOnlyOnePage: false,
         href: false,
         pageVariable: '{{page}}',
         totalPagesVariable: '{{total_pages}}',
@@ -310,6 +312,6 @@
         return this;
     };
 
-    $.fn.twbsPagination.version = "1.4";
+    $.fn.twbsPagination.version = "1.4.1";
 
 })(window.jQuery, window, document);
