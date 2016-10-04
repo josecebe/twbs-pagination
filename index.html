@@ -13,6 +13,13 @@
     <link rel="stylesheet" type="text/css" href="css/pygment_trac.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print"/>
 
+    <!--<link rel="stylesheet" type="text/css" href="css/color-brewer.css">-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+    </script>
+
     <script src="//code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/jquery.twbsPagination.js" type="text/javascript"></script>
@@ -27,6 +34,10 @@
             color: #333; /* Lighten up font color */
             border-collapse: collapse;
             border-spacing: 0;
+        }
+
+        .hljs {
+            background-color: #fff;
         }
 
         td, th {
@@ -50,6 +61,23 @@
         tr td:nth-child(1),
         tr td:nth-child(2) {
             text-align: left;
+        }
+
+        .input-with-button {
+            padding: 10px;
+        }
+
+        .input-with-button .btn {
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+        }
+
+        .input-with-button input {
+            width: 200px;
+            border-radius: 0;
+            display: inline-block;
+            vertical-align: middle;
         }
     </style>
 
@@ -102,18 +130,17 @@
             </div>
 
             <p>Here is corresponding piece of code:</p>
-            <pre><code class="highlight">    $(<span class="s">'#pagination-demo'</span>).twbsPagination({
-        totalPages: <span class="il">35</span>,
-        visiblePages: <span class="il">7</span>,
-        onPageClick: <span class="k">function</span> (event, page) {
-            $(<span class="s">'#page-content'</span>).text(<span class="s">'Page '</span> + page);
+            <pre><code class="js">    $('#pagination-demo').twbsPagination({
+        totalPages: 35,
+        visiblePages: 7,
+        onPageClick: function (event, page) {
+            $('#page-content').text('Page ' + page);
         }
     });</code></pre>
 
             <p>And HTML code:</p>
-            <pre><code class="highlight">    &lt;<span class="nt">ul</span> <span class="na">id</span>=<span
-                    class="s">&quot;pagination-demo&quot;</span><span class="na"> class</span>=<span class="s">&quot;pagination-sm&quot;</span>&gt;&lt;/<span
-                    class="nt">ul</span>&gt;</code></pre>
+            <pre><code class="html">    &lt;ul id=&quot;pagination-demo&quot; class>=&quot;pagination-sm&quot;&gt;&lt;/ul&gt;
+            </code></pre>
 
             <h3>
                 <a id="options-and-events" class="anchor" href="#options-and-events"><span
@@ -281,6 +308,48 @@
             <h3>
                 <a id="examples" class="anchor" href="#examples"><span
                         class="octicon octicon-link"></span></a>Examples</h3>
+
+            <h4>Dynamic total pages number</h4>
+
+            <p>This is from frequently asked questions. For e.g. - How can I set new number of total pages?
+            How can I initialize plugin with new set of options?
+            How to refresh or redraw it?</p>
+
+            <p>You can do it with two simple steps. Call <code>destroy</code> method and then initialize it
+                with new options.</p>
+
+            <pre><code class="highlight">    var $pagination = $(<span class="s">'selector'</span>);
+    var defaultOpts = {
+        totalPages: <span class="il">20</span>
+    };
+    $pagination.twbsPagination(defaultOpts);
+    $.ajax({
+        ...,
+        success: function (data) {
+            var totalPages = data.newTotalPages;
+            var currentPage = $pagination.twbsPagination('getCurrentPage');
+            $pagination.twbsPagination('destroy');
+            $pagination.twbsPagination($.extend({}, defaultOpts, {
+                startPage: currentPage,
+                totalPages: totalPages
+            }));
+        }
+    });
+            </code></pre>
+
+            <div class="text-center">
+                <div id="dynamic-total-pages-content"></div>
+                <ul id="dynamic-total-pages-pagination" class="pagination-sm"></ul>
+            </div>
+
+            <p>Here you can change the total pages:</p>
+
+            <form id="dynamicTotalForm" class="input-with-button">
+                <input type="number" min="2" max="30" value="2" class="form-control js-total-pages-value">
+                <button type="submit" class="btn btn-default">Change</button>
+            </form>
+
+            <p></p>
 
             <h4>Synchronized pagination elements</h4>
 

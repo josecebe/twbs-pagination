@@ -7,9 +7,24 @@ $(document).ready(function () {
         }
     });
 
-    $('#visible-pages-example').twbsPagination({
-        totalPages: 35,
-        visiblePages: 10
+    var $pagination = $('#dynamic-total-pages-pagination');
+    var defaultOpts = {
+        totalPages: 20
+    };
+    $pagination.twbsPagination(defaultOpts);
+
+    $('#dynamicTotalForm').submit(function (evt) {
+        evt.preventDefault();
+        var totalPages = $(evt.target).find('.js-total-pages-value').val();
+        if (!totalPages) {
+            return;
+        }
+        var currentPage = $pagination.twbsPagination('getCurrentPage');
+        $pagination.twbsPagination('destroy');
+        $pagination.twbsPagination($.extend({}, defaultOpts, {
+            startPage: currentPage,
+            totalPages: totalPages
+        }));
     });
 
     $('.sync-pagination').twbsPagination({
@@ -19,23 +34,5 @@ $(document).ready(function () {
         }
     });
 
-    $('#not-spa-demo').twbsPagination({
-        totalPages: 15,
-        visiblePages: 5,
-        href: "?a=&page={{number}}&c=d",
-        onPageClick: function (event, page) {
-            $('#not-spa-demo-content').text('Page ' + page);
-        }
-    });
-
-    $('#not-spa-demo-2').twbsPagination({
-        totalPages: 15,
-        visiblePages: 5,
-        href: "#page={{pageNumber}}&c=d",
-        hrefVariable: '{{pageNumber}}',
-        onPageClick: function (event, page) {
-            $('#not-spa-demo-content-2').text('Page ' + page);
-        }
-    });
 });
 
