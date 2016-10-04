@@ -258,8 +258,10 @@
             }
             if (search.indexOf('?') === 0) search = search.substr(1);
             return search;
+        },
+        getCurrentPage: function () {
+            return this.currentPage;
         }
-
     };
 
     // PLUGIN DEFINITION
