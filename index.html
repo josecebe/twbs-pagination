@@ -64,7 +64,8 @@
         }
 
         .input-with-button {
-            padding: 10px;
+            padding: 0;
+            background: none;
         }
 
         .input-with-button .btn {
@@ -78,6 +79,12 @@
             border-radius: 0;
             display: inline-block;
             vertical-align: middle;
+        }
+
+        .b4-iframe {
+            width: 100%;
+            height: 68px;
+            border: 1px solid #ccc;
         }
     </style>
 
@@ -337,8 +344,10 @@
     });
             </code></pre>
 
+            <p></p>
+
             <div class="text-center">
-                <div id="dynamic-total-pages-content"></div>
+                <div id="dynamic-total-pages-content" class="well"></div>
                 <ul id="dynamic-total-pages-pagination" class="pagination-sm"></ul>
             </div>
 
@@ -361,6 +370,12 @@
                 <div id="sync-example-page-content" class="well">Page 1</div>
                 <ul class="sync-pagination pagination-sm"></ul>
             </div>
+
+            <h4>Bootstrap 4 example (in iframe)</h4>
+
+            <p>It shows how it look like with bootstrap 4 (version 4.0.0-alpha.4).</p>
+
+            <iframe src="bootstrap-v4.html" class="b4-iframe"></iframe>
 
             <h3>
                 <a id="license" class="anchor" href="#license"><span

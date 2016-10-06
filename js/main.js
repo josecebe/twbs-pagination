@@ -9,7 +9,10 @@ $(document).ready(function () {
 
     var $pagination = $('#dynamic-total-pages-pagination');
     var defaultOpts = {
-        totalPages: 20
+        totalPages: 20,
+        onPageClick: function (evt, page) {
+            $('#dynamic-total-pages-content').text('Page ' + page);
+        }
     };
     $pagination.twbsPagination(defaultOpts);
 
