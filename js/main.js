@@ -37,5 +37,19 @@ $(document).ready(function () {
         }
     });
 
+    $('#alt-style-pagination').pagination({
+        items: 20,
+        itemOnPage: 8,
+        currentPage: 1,
+        cssStyle: '',
+        prevText: '<span aria-hidden="true">&laquo;</span>',
+        nextText: '<span aria-hidden="true">&raquo;</span>',
+        onInit: function () {
+            // fire first page loading
+        },
+        onPageClick: function (page, evt) {
+            $('#alt-style-pagination-content').text('Page ' + page);
+        }
+    })
 });
 
