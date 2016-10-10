@@ -175,7 +175,7 @@
             var _this = this;
             this.$listContainer.children().remove();
             var items = this.buildListItems(pages);
-            jQuery.each(items, function(key, item){
+            $.each(items, function(key, item){
                 _this.$listContainer.append(item);
             });
 
