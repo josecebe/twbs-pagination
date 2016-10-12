@@ -147,8 +147,7 @@
     });</code></pre>
 
             <p>And HTML code:</p>
-            <pre><code class="html">    &lt;ul id=&quot;pagination-demo&quot; class>=&quot;pagination-sm&quot;&gt;&lt;/ul&gt;
-            </code></pre>
+            <pre><code class="html">    &lt;ul id=&quot;pagination-demo&quot; class>=&quot;pagination-sm&quot;&gt;&lt;/ul&gt;</code></pre>
 
             <h3>
                 <a id="options-and-events" class="anchor" href="#options-and-events"><span
@@ -326,9 +325,9 @@
             <p>You can do it with two simple steps. Call <code>destroy</code> method and then initialize it
                 with new options.</p>
 
-            <pre><code class="js">    var $pagination = $(<span class="s">'selector'</span>);
+            <pre><code class="js">    var $pagination = $('selector');
     var defaultOpts = {
-        totalPages: <span class="il">20</span>
+        totalPages: 20
     };
     $pagination.twbsPagination(defaultOpts);
     $.ajax({
@@ -342,10 +341,7 @@
                 totalPages: totalPages
             }));
         }
-    });
-            </code></pre>
-
-            <p></p>
+    });</code></pre>
 
             <div class="text-center">
                 <div id="dynamic-total-pages-content" class="well"></div>
@@ -366,6 +362,19 @@
             <p>You can attach multiple paginators to your content and access them via class name.
                 The following example show this case.</p>
 
+            <p>HTML code:</p>
+            <pre><code class="html">    &lt;ul class=&quot;sync-pagination&quot;&gt;&lt;/ul&gt;
+    &lt;div id=&quot;content&quot;&gt;Page 1&lt;/div&gt;
+    &lt;ul class=&quot;sync-pagination pagination-sm&quot;&gt;&lt;/ul&gt;</code></pre>
+
+            <p>JS code:</p>
+            <pre><code class="js">    $('.sync-pagination').twbsPagination({
+        totalPages: 20,
+        onPageClick: function (evt, page) {
+            $('#content').text('Page ' + page);
+        }
+    });</code></pre>
+
             <div class="text-center">
                 <ul class="sync-pagination pagination-sm"></ul>
                 <div id="sync-example-page-content" class="well">Page 1</div>
@@ -385,6 +394,22 @@
             <p>For that purpose (see example view) I suggest
                 <a href="https://github.com/flaviusmatis/simplePagination.js">flaviusmatis/simplePagination.js</a>
                 plugin.</p>
+
+            <p>JS code:</p>
+            <pre><code class="js">    $('selector').pagination({
+        items: 20,
+        itemOnPage: 8,
+        currentPage: 1,
+        cssStyle: '',
+        prevText: '&lt;span aria-hidden=&quot;true&quot;&gt;&amp;laquo;&lt;/span&gt;',
+        nextText: '&lt;span aria-hidden=&quot;true&quot;&gt;&amp;raquo;&lt;/span&gt;',
+        onInit: function () {
+            // fire first page loading
+        },
+        onPageClick: function (page, evt) {
+            // some code
+        }
+    });</code></pre>
 
             <div class="text-center">
                 <div id="alt-style-pagination-content" class="well">Page 1</div>

@@ -50,6 +50,6 @@ $(document).ready(function () {
         onPageClick: function (page, evt) {
             $('#alt-style-pagination-content').text('Page ' + page);
         }
-    })
+    });
 });
 
