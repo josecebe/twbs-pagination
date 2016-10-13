@@ -174,7 +174,14 @@
         page = null;
     });
 
+    var checkCommon = function (assert) {
+        assert.ok($(pag1.find('li').get(0)).hasClass('first'));
+        assert.ok($(pag1.find('li').get(1)).hasClass('prev'));
+        assert.ok($(pag1.find('li').get(-1)).hasClass('last'));
+        assert.ok($(pag1.find('li').get(-2)).hasClass('next'));
+    };
     var checkLeftBound = function (assert) {
+        checkCommon(assert);
         var disabledClass = pag1.data('twbs-pagination').options.disabledClass;
         assert.ok($(pag1.find('li').get(0)).hasClass(disabledClass));
         assert.ok($(pag1.find('li').get(1)).hasClass(disabledClass));
@@ -182,6 +189,7 @@
         assert.ok(! $(pag1.find('li').get(-2)).hasClass(disabledClass));
     };
     var checkMiddle = function (assert) {
+        checkCommon(assert);
         var disabledClass = pag1.data('twbs-pagination').options.disabledClass;
         assert.ok(! $(pag1.find('li').get(0)).hasClass(disabledClass));
         assert.ok(! $(pag1.find('li').get(1)).hasClass(disabledClass));
@@ -189,17 +197,12 @@
         assert.ok(! $(pag1.find('li').get(-2)).hasClass(disabledClass));
     };
     var checkRightBound = function (assert) {
+        checkCommon(assert);
         var disabledClass = pag1.data('twbs-pagination').options.disabledClass;
         assert.ok(! $(pag1.find('li').get(0)).hasClass(disabledClass));
         assert.ok(! $(pag1.find('li').get(1)).hasClass(disabledClass));
         assert.ok($(pag1.find('li').get(-1)).hasClass(disabledClass));
         assert.ok($(pag1.find('li').get(-2)).hasClass(disabledClass));
-    };
-    var checkCommon = function (assert) {
-        assert.ok($(pag1.find('li').get(0)).hasClass('first'));
-        assert.ok($(pag1.find('li').get(1)).hasClass('prev'));
-        assert.ok($(pag1.find('li').get(-1)).hasClass('last'));
-        assert.ok($(pag1.find('li').get(-2)).hasClass('next'));
     };
     var testSimple = function (assert, bound) {
         destroyAndCreateWithOpts(pag1, { totalPages: bound, visiblePages: bound });
@@ -207,7 +210,6 @@
         var twice = 2;
         while (twice > 0) {
             checkLeftBound(assert);
-            checkCommon(assert);
             assert.ok($(pag1.find('li').get(2)).hasClass('active'));
             $(pag1.find('li').get(2)).trigger('click');
             twice--;
@@ -217,14 +219,12 @@
         while (i < (bound + 1)) {
             $(pag1.find('li').get(i)).trigger('click');
             assert.ok($(pag1.find('li').get(i)).hasClass('active'));
-            checkCommon(assert);
             checkMiddle(assert);
             i++;
         }
 
         $(pag1.find('li').get(i)).trigger('click');
         assert.ok($(pag1.find('li').get(i)).hasClass('active'));
-        checkCommon(assert);
         checkRightBound(assert);
     };
     QUnit.test("Testing default UI behaviour (Total: 5, Visible: 5)", function (assert) {
@@ -235,13 +235,12 @@
         testSimple(assert, 10);
     });
 
-    QUnit.test("Testing default UI behaviour (Total: 10, Visible: 5)", function (assert) {
+    QUnit.test("Testing default UI behaviour (Total: 20, Visible: 5)", function (assert) {
         destroyAndCreateWithOpts(pag1, { totalPages: 20, visiblePages: 5 });
 
         var twice = 2;
         while (twice > 0) {
             checkLeftBound(assert);
-            checkCommon(assert);
             assert.ok($(pag1.find('li').get(2)).hasClass('active'));
             $(pag1.find('li').get(2)).trigger('click');
             twice--;
@@ -259,20 +258,37 @@
                     break;
                 }
             }
-            checkCommon(assert);
             checkMiddle(assert);
             i++;
         }
 
         $(pag1.find('li').get(5)).trigger('click');
         assert.ok($(pag1.find('li').get(5)).hasClass('active'));
-        checkCommon(assert);
         checkMiddle(assert);
 
         $(pag1.find('li').get(6)).trigger('click');
         assert.ok($(pag1.find('li').get(6)).hasClass('active'));
-        checkCommon(assert);
         checkRightBound(assert);
+    });
+
+    QUnit.test("Testing default UI behaviour (Total: 5, Visible: 3) / Click on buttons", function (assert) {
+        destroyAndCreateWithOpts(pag1, { totalPages: 5, visiblePages: 3 });
+
+        // click next btn
+        $(pag1.find('li').get(5)).trigger('click');
+        checkMiddle(assert);
+
+        // click last btn
+        $(pag1.find('li').get(6)).trigger('click');
+        checkRightBound(assert);
+
+        // click prev btn
+        $(pag1.find('li').get(1)).trigger('click');
+        checkMiddle(assert);
+
+        // click first btn
+        $(pag1.find('li').get(0)).trigger('click');
+        checkLeftBound(assert);
     });
 
 })(window.jQuery);
