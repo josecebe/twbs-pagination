@@ -3,7 +3,7 @@
     "nativeName": "jQuery Bootstrap Pagination",
     "version": "1.4.1",
     "homepage": "https://github.com/esimakin/twbs-pagination",
-    "author": "Eugene Simakin <eugenesimakin@mail.ru>",
+    "author": "Eugene Simakin <john-24@list.ru>",
     "description": "jQuery simple pagination plugin for bootstrap-style webpages",
     "main": "jquery.twbsPagination",
     "dependencies": {

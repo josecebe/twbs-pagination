@@ -291,4 +291,29 @@
         checkLeftBound(assert);
     });
 
+    QUnit.test("Testing 'enable' and 'disable' methods", function (assert) {
+        destroyAndCreateWithOpts(pag1, { totalPages: 5, visiblePages: 3 });
+        checkLeftBound(assert);
+
+        var disabledClass = pag1.data('twbs-pagination').options.disabledClass;
+        var activeClass = pag1.data('twbs-pagination').options.activeClass;
+
+        pag1.twbsPagination('disable');
+        var dCnt = 0, aCnt = 0;
+        pag1.find('li').each(function () {
+            var $this = $(this);
+            if (!$this.hasClass(activeClass)) {
+                assert.ok($this.hasClass(disabledClass));
+                dCnt++;
+            } else {
+                aCnt++;
+            }
+        });
+        assert.equal(6, dCnt);
+        assert.equal(1, aCnt);
+
+        pag1.twbsPagination('enable');
+        checkLeftBound(assert);
+    });
+
 })(window.jQuery);
