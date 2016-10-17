@@ -51,5 +51,22 @@ $(document).ready(function () {
             $('#alt-style-pagination-content').text('Page ' + page);
         }
     });
+
+    // ### IF YOU DON'T PASS onPageClick FUNCTION IN OPTIONS OBJECT
+    // ### YOU SHOULD FIRE FIRST PAGE CLICK INDEPENDENTLY
+    // ### BECAUSE PLUGIN DOESN'T HAVE ANY CALLBACK TO FIRE IT DURING INITIALIZATION
+    var $edPag = $('#enable-disable-pagination').twbsPagination({
+        totalPages: 20
+    }).on('page', function (evt, page) {
+        $('#enable-disable-pagination-content').text('Page ' + page);
+    });
+
+    $('#enable-pagination').click(function () {
+        $edPag.twbsPagination('enable');
+    });
+
+    $('#disable-pagination').click(function () {
+        $edPag.twbsPagination('disable');
+    });
 });
 

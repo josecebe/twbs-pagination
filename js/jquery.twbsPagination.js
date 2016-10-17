@@ -71,6 +71,7 @@
         if (this.options.initiateStartPageClick) {
             this.show(this.options.startPage);
         } else {
+            this.currentPage = this.options.startPage;
             this.render(this.getPages(this.options.startPage));
             this.setupEvents();
         }
@@ -102,6 +103,23 @@
             this.$element.trigger('page', page);
 
             return this;
+        },
+
+        enable: function () {
+            this.show(this.currentPage);
+        },
+
+        disable: function () {
+            var _this = this;
+            this.$listContainer.off('click').on('click', 'li', function (evt) {
+                evt.preventDefault();
+            });
+            this.$listContainer.children().each(function () {
+                var $this = $(this);
+                if (!$this.hasClass(_this.options.activeClass)) {
+                    $(this).addClass(_this.options.disabledClass);
+                }
+            });
         },
 
         buildListItems: function (pages) {
@@ -175,7 +193,7 @@
             var _this = this;
             this.$listContainer.children().remove();
             var items = this.buildListItems(pages);
-            jQuery.each(items, function(key, item){
+            $.each(items, function(key, item){
                 _this.$listContainer.append(item);
             });
 

@@ -75,6 +75,10 @@
             border-radius: 0;
         }
 
+        .btn {
+            border-radius: 0;
+        }
+
         .input-with-button input {
             width: 200px;
             border-radius: 0;
@@ -411,6 +415,40 @@
                 <div id="alt-style-pagination-content" class="well">Page 1</div>
                 <ul id="alt-style-pagination" class="pagination"></ul>
             </div>
+
+            <h4>Methods 'enable' and 'disable' in action</h4>
+
+            <div class="text-center">
+                <div id="enable-disable-pagination-content" class="well">Page 1</div>
+                <ul id="enable-disable-pagination" class="pagination pagination-sm"></ul>
+            </div>
+
+            <p>Push the buttons...</p>
+
+            <div class="text-center">
+                <button id="enable-pagination" class="btn btn-default">Enable</button>
+                <button id="disable-pagination" class="btn btn-default">Disable</button>
+            </div>
+
+            <p>JS code:</p>
+
+            <pre><code class="js">    // ### IF YOU DON'T PASS onPageClick FUNCTION IN OPTIONS OBJECT
+    // ### YOU SHOULD FIRE FIRST PAGE CLICK INDEPENDENTLY
+    // ### BECAUSE PLUGIN DOESN'T HAVE ANY CALLBACK
+    // ### TO FIRE IT DURING INITIALIZATION
+    var $edPag = $('#enable-disable-pagination').twbsPagination({
+        totalPages: 20
+    }).on('page', function (evt, page) {
+        $('#enable-disable-pagination-content').text('Page ' + page);
+    });
+
+    $('#enable-pagination').click(function () {
+        $edPag.twbsPagination('enable');
+    });
+
+    $('#disable-pagination').click(function () {
+        $edPag.twbsPagination('disable');
+    });</code></pre>
 
             <h3>
                 <a id="license" class="anchor" href="#license"><span
