@@ -9,7 +9,7 @@ module.exports = function (grunt) {
 		' * <%= pkg.nativeName %> v<%= pkg.version %>\n' +
 		' * <%= pkg.homepage %>\n' +
 		' *\n' +
-		' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+		' * Copyright 2014-<%= grunt.template.today("yyyy") %>, <%= pkg.author %>\n' +
 		' * Released under <%= pkg.license %> license\n' +
 		' * <%= pkg.licenseUrl %>\n' +
 		' */\n',
