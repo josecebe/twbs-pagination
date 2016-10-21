@@ -316,4 +316,107 @@
         checkLeftBound(assert);
     });
 
+    QUnit.test("Testing 'onPageClick' methods", function (assert) {
+        var $html = $('<ul id="test-pagination">' +
+            '<li id="page-1">Page1</li>' +
+            '<li id="page-2">Page2</li>' +
+            '<li id="page-3">Page3</li>' +
+            '</ul>').appendTo('body');
+        assert.ok($('body').find('#test-pagination').length > 0);
+        var calledEvt = false;
+        var calledPage = false;
+        var calledCnt = 0;
+        var testClick = function (evt, page) {
+            calledEvt = evt;
+            calledPage = page;
+            calledCnt++;
+        };
+        $html.twbsPagination({
+            onPageClick: testClick,
+            totalPages: 3
+        });
+        var pagination = $html.data('twbsPagination');
+        assert.ok(pagination.options.totalPages === 3);
+        assert.ok(calledPage === 1, "onPageClick should be called with first page on initialization");
+        assert.ok(typeof calledEvt === "object", "onPageClick should be called with event object");
+        assert.ok(calledCnt === 1, "onPageClick should be called once on initialization");
+        $html.remove();
+    });
+
+    QUnit.test("Testing 'onPageClick' triggering events", function (assert) {
+        var $html = $('<ul id="test-pagination">' +
+            '<li id="page-1">Page1</li>' +
+            '<li id="page-2">Page2</li>' +
+            '<li id="page-3">Page3</li>' +
+            '</ul>').appendTo('body');
+        var calledEvt = false;
+        var calledPage = false;
+        var calledCnt = 0;
+        var testClick = function (evt, page) {
+            calledEvt = evt;
+            calledPage = page;
+            calledCnt++;
+        };
+        $html.twbsPagination({
+            onPageClick: testClick,
+            totalPages: 3
+        });
+        var pagination = $html.data('twbsPagination');
+        $html.trigger('page', 2);
+        $html.trigger('page', 1);
+        $html.trigger('page', 3);
+        assert.ok(pagination.options.totalPages === 3);
+        // Should be equal to latest page
+        assert.ok(calledPage === 3, "called page should be equal to latest triggered page = " + calledPage);
+        assert.ok(typeof calledEvt === "object", "called event should be available");
+        assert.ok(calledCnt === 4, "called count should be equal to first+all triggered counts = " + calledCnt);
+        $html.remove();
+    });
+
+    QUnit.test("Testing 'onPageClick' with show method", function (assert) {
+        var $html = $('<ul id="test-pagination">' +
+            '<li id="page-1">Page1</li>' +
+            '<li id="page-2">Page2</li>' +
+            '<li id="page-3">Page3</li>' +
+            '</ul>').appendTo('body');
+        var calledEvt = false;
+        var calledPage = false;
+        var calledCnt = 0;
+        var testClick = function (evt, page) {
+            calledEvt = evt;
+            calledPage = page;
+            calledCnt++;
+        };
+        $html.twbsPagination({
+            onPageClick: testClick,
+            totalPages: 3
+        });
+        var pagination = $html.data('twbsPagination');
+        pagination.show(2);
+        pagination.show(1);
+        pagination.show(3);
+        assert.ok(pagination.options.totalPages === 3);
+        // Should be equal to latest page
+        assert.ok(calledPage === 3, "called page should be equal to latest triggered page = " + calledPage);
+        assert.ok(typeof calledEvt === "object");
+        assert.ok(calledCnt === 4, "called count should be equal to first+all triggered counts = " + calledCnt);
+        $html.remove();
+    });
+
+    QUnit.test("Testing throws error with show method", function (assert) {
+        var $html = $('<ul id="test-pagination">' +
+            '<li id="page-1">Page1</li>' +
+            '<li id="page-2">Page2</li>' +
+            '<li id="page-3">Page3</li>' +
+            '</ul>').appendTo('body');
+        $html.twbsPagination({
+            totalPages: 3
+        });
+        var pagination = $html.data('twbsPagination');
+        assert.throws(function () {
+                pagination.show(20)
+            }, "error should be thrown if wrong page provided"
+        );
+        $html.remove();
+    });
 })(window.jQuery);
