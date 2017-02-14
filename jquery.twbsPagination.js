@@ -100,7 +100,6 @@
             this.render(this.getPages(page));
             this.setupEvents();
 
-            this.$element.trigger('page', page);
 
             return this;
         },
@@ -236,7 +235,11 @@
                 }
                 // Prevent click event if href is not set.
                 !_this.options.href && evt.preventDefault();
-                _this.show(parseInt($this.data('page')));
+
+                var page = $this.data('page');
+                $this.trigger('page', page);
+
+                _this.show(parseInt(page));
             });
         },
 
