@@ -158,7 +158,12 @@
             $itemContainer.addClass(this.options[type + 'Class']);
             $itemContainer.data('page', page);
             $itemContainer.data('page-type', type);
-            $itemContainer.append($itemContent.attr('href', this.makeHref(page)).addClass(this.options.anchorClass).html(itemText));
+            
+            if (this.options.defaultHref) {
+                $itemContainer.append($itemContent.attr('href', this.options.defaultHref + page).addClass(this.options.anchorClass).html(itemText));
+            } else {
+                $itemContainer.append($itemContent.attr('href', this.makeHref(page)).addClass(this.options.anchorClass).html(itemText));
+            }
 
             return $itemContainer;
         },
@@ -186,7 +191,7 @@
                 itPage++;
             }
 
-            return {"currentPage": currentPage, "numeric": pages};
+            return {'currentPage': currentPage, 'numeric': pages};
         },
 
         render: function (pages) {
@@ -241,12 +246,12 @@
         },
 
         makeHref: function (page) {
-            return this.options.href ? this.generateQueryString(page) : "#";
+            return this.options.href ? this.generateQueryString(page) : '#';
         },
 
         makeText: function (text, page) {
             return text.replace(this.options.pageVariable, page)
-                .replace(this.options.totalPagesVariable, this.options.totalPages)
+                .replace(this.options.totalPagesVariable, this.options.totalPages);
         },
         getPageFromQueryString: function (searchStr) {
             var search = this.getSearchString(searchStr),
@@ -266,6 +271,7 @@
             var search = this.getSearchString(searchStr),
                 regex = new RegExp(this.options.pageVariable + '=*[^&#]*');
             if (!search) return '';
+            console.log(pageNumber);
             return '?' + search.replace(regex, this.options.pageVariable + '=' + pageNumber);
 
         },
@@ -332,6 +338,6 @@
         return this;
     };
 
-    $.fn.twbsPagination.version = "1.4.1";
+    $.fn.twbsPagination.version = '1.4.1';
 
 })(window.jQuery, window, document);
