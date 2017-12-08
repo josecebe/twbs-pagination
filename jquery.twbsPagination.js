@@ -265,9 +265,10 @@
         generateQueryString: function (pageNumber, searchStr) {
             var search = this.getSearchString(searchStr),
                 regex = new RegExp(this.options.pageVariable + '=*[^&#]*');
-            if (!search) return '';
+            if(!regex.test(search)){ //search not include pageVariable
+                search = this.options.pageVariable + '=' + pageNumber + (search?"&" + search:"");
+            }
             return '?' + search.replace(regex, this.options.pageVariable + '=' + pageNumber);
-
         },
         getSearchString: function (searchStr) {
             var search = searchStr || window.location.search;
