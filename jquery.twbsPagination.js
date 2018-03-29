@@ -265,7 +265,11 @@
         generateQueryString: function (pageNumber, searchStr) {
             var search = this.getSearchString(searchStr),
                 regex = new RegExp(this.options.pageVariable + '=*[^&#]*');
-            if (!search) return '';
+            
+            // 'href' working
+            if (!search) search = this.options.pageVariable+"=1";
+            else if(!regex.test(search)) search += "&" + this.options.pageVariable+"=1";
+            
             return '?' + search.replace(regex, this.options.pageVariable + '=' + pageNumber);
 
         },
