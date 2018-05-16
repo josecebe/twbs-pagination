@@ -42,10 +42,6 @@
             return this;
         }
 
-        if (this.options.totalPages < this.options.visiblePages) {
-            this.options.visiblePages = this.options.totalPages;
-        }
-
         if (this.options.href) {
             this.options.startPage = this.getPageFromQueryString();
             if (!this.options.startPage) {
@@ -170,13 +166,18 @@
             var start = currentPage - half + 1 - this.options.visiblePages % 2;
             var end = currentPage + half;
 
+            var visiblePages = this.options.visiblePages;
+            if (visiblePages > this.options.totalPages) {
+                visiblePages = this.options.totalPages;
+            }
+
             // handle boundary case
             if (start <= 0) {
                 start = 1;
-                end = this.options.visiblePages;
+                end = visiblePages;
             }
             if (end > this.options.totalPages) {
-                start = this.options.totalPages - this.options.visiblePages + 1;
+                start = this.options.totalPages - visiblePages + 1;
                 end = this.options.totalPages;
             }
 
