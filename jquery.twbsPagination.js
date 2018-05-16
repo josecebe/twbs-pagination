@@ -240,6 +240,11 @@
             });
         },
 
+        changeTotalPages: function(totalPages, currentPage) {
+            this.options.totalPages = totalPages;
+            this.show(currentPage);
+        },
+
         makeHref: function (page) {
             return this.options.href ? this.generateQueryString(page) : "#";
         },
