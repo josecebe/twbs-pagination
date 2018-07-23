@@ -1,8 +1,9 @@
 {
     "name": "twbs-pagination",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "homepage": "https://github.com/esimakin/twbs-pagination",
     "authors": [
+        "Jose Cebellán <josecebe@gmail.com>",
         "Eugene Simakin <eugenesimakin@mail.ru>"
     ],
     "description": "jQuery simple pagination plugin for bootstrap-style webpages",

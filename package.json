@@ -1,7 +1,7 @@
 {
     "name": "twbs-pagination",
     "nativeName": "jQuery Bootstrap Pagination",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "homepage": "https://github.com/esimakin/twbs-pagination",
     "author": "Eugene Simakin <john-24@list.ru>",
     "description": "jQuery simple pagination plugin for bootstrap-style webpages",
@@ -10,11 +10,11 @@
         "jquery": ">=1.7"
     },
     "devDependencies": {
-        "grunt": "^1.0.1",
-        "grunt-cli": "~1.2.0",
-        "grunt-contrib-watch": "~1.0.0",
-        "grunt-contrib-uglify": "^2.0.0",
-        "load-grunt-tasks": "^3.1.0"
+        "grunt": "1.0.3",
+        "grunt-cli": "1.2.0",
+        "grunt-contrib-uglify": "3.3.0",
+        "grunt-contrib-watch": "1.1.0",
+        "load-grunt-tasks": "4.0.0"
     },
     "repository": {
         "type": "git",

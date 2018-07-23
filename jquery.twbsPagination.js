@@ -1,8 +1,8 @@
 /*!
- * jQuery pagination plugin v1.4.1
+ * jQuery pagination plugin v1.4.2
  * http://esimakin.github.io/twbs-pagination/
  *
- * Copyright 2014-2016, Eugene Simakin
+ * Copyright 2014-2018, Eugene Simakin
  * Released under Apache 2.0 license
  * http://apache.org/licenses/LICENSE-2.0.html
  */
@@ -332,6 +332,6 @@
         return this;
     };
 
-    $.fn.twbsPagination.version = "1.4.1";
+    $.fn.twbsPagination.version = "1.4.2";
 
 })(window.jQuery, window, document);
