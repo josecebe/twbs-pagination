@@ -418,4 +418,23 @@
         );
         $html.remove();
     });
+
+    QUnit.test("Test 'changeTotalPages' method", function (assert) {
+        destroyAndCreateWithOpts(pag1, {
+            totalPages: 6,
+            visiblePages: 5
+        });
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 30, 1), {currentPage: 1, numeric: [1, 2, 3, 4, 5]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 30, 2), {currentPage: 2, numeric: [1, 2, 3, 4, 5]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 30, 3), {currentPage: 3, numeric: [1, 2, 3, 4, 5]});
+
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 40, 4), {currentPage: 4, numeric: [2, 3, 4, 5, 6]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 40, 5), {currentPage: 5, numeric: [3, 4, 5, 6, 7]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 40, 20), {currentPage: 20, numeric: [18, 19, 20, 21, 22]});
+
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 50, 47), {currentPage: 47, numeric: [45, 46, 47, 48, 49]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 50, 48), {currentPage: 48, numeric: [46, 47, 48, 49, 50]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 50, 49), {currentPage: 49, numeric: [46, 47, 48, 49, 50]});
+        assert.deepEqual(pag1.twbsPagination('changeTotalPages', 50, 50), {currentPage: 50, numeric: [46, 47, 48, 49, 50]});
+    });
 })(window.jQuery);

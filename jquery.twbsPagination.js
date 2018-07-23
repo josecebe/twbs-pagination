@@ -93,12 +93,13 @@
             }
             this.currentPage = page;
 
-            this.render(this.getPages(page));
+            var pages = this.getPages(page);
+            this.render(pages);
             this.setupEvents();
 
             this.$element.trigger('page', page);
 
-            return this;
+            return pages;
         },
 
         enable: function () {
@@ -243,7 +244,7 @@
 
         changeTotalPages: function(totalPages, currentPage) {
             this.options.totalPages = totalPages;
-            this.show(currentPage);
+            return this.show(currentPage);
         },
 
         makeHref: function (page) {
