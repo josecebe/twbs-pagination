@@ -255,6 +255,7 @@
             return text.replace(this.options.pageVariable, page)
                 .replace(this.options.totalPagesVariable, this.options.totalPages)
         },
+
         getPageFromQueryString: function (searchStr) {
             var search = this.getSearchString(searchStr),
                 regex = new RegExp(this.options.pageVariable + '(=([^&#]*)|&|#|$)'),
@@ -269,13 +270,14 @@
             }
             return page;
         },
+
         generateQueryString: function (pageNumber, searchStr) {
             var search = this.getSearchString(searchStr),
                 regex = new RegExp(this.options.pageVariable + '=*[^&#]*');
             if (!search) return '';
             return '?' + search.replace(regex, this.options.pageVariable + '=' + pageNumber);
-
         },
+
         getSearchString: function (searchStr) {
             var search = searchStr || window.location.search;
             if (search === '') {
@@ -284,8 +286,13 @@
             if (search.indexOf('?') === 0) search = search.substr(1);
             return search;
         },
+
         getCurrentPage: function () {
             return this.currentPage;
+        },
+
+        getTotalPages: function () {
+            return this.options.totalPages;
         }
     };
 
