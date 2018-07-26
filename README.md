@@ -1,4 +1,4 @@
-# [jQuery pagination plugin (bootstrap powered)](http://esimakin.github.io/twbs-pagination/)
+# [jQuery pagination plugin (bootstrap powered)](http://josecebe.github.io/twbs-pagination/)
 
 ### Basic usage ###
 
@@ -23,4 +23,4 @@ For development use grunt build to make minified file.
 To use grunt install packages by using: npm install
 
 ## Demo and Docs
-For more information see [docs on github pages](http://esimakin.github.io/twbs-pagination/) (not completed yet)
+For more information see [docs on github pages](http://josecebe.github.io/twbs-pagination/) (not completed yet)
