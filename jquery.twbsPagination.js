@@ -55,14 +55,18 @@
         if (tagName === 'UL') {
             this.$listContainer = this.$element;
         } else {
-            this.$listContainer = $('<ul></ul>');
+            var elements = this.$element;
+            var $newListContainer = $([]);
+            elements.each(function(index) {
+                var $newElem = $("<ul></ul>");
+                $(this).append($newElem);
+                $newListContainer.push($newElem[0]);
+            });
+            this.$listContainer = $newListContainer;
+            this.$element = $newListContainer;
         }
 
         this.$listContainer.addClass(this.options.paginationClass);
-
-        if (tagName !== 'UL') {
-            this.$element.append(this.$listContainer);
-        }
 
         if (this.options.initiateStartPageClick) {
             this.show(this.options.startPage);
