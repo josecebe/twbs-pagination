@@ -32,6 +32,10 @@
             throw new Error('Visible pages option is not correct!');
         }
 
+        if (this.options.beforePageClick instanceof Function) {
+            this.$element.first().on('beforePage', this.options.beforePageClick);
+        }
+
         if (this.options.onPageClick instanceof Function) {
             this.$element.first().on('page', this.options.onPageClick);
         }
@@ -98,6 +102,8 @@
                 throw new Error('Page is incorrect.');
             }
             this.currentPage = page;
+
+            this.$element.trigger('beforePage', page);
 
             var pages = this.getPages(page);
             this.render(pages);
@@ -333,6 +339,7 @@
         next: 'Next',
         last: 'Last',
         loop: false,
+        beforePageClick: null,
         onPageClick: null,
         paginationClass: 'pagination',
         nextClass: 'page-item next',
