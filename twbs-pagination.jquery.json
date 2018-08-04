@@ -22,8 +22,8 @@
         "twbs-pagination",
         "pagination"
     ],
-    "homepage": "https://github.com/esimakin/twbs-pagination",
-    "demo": "http://esimakin.github.io/twbs-pagination/",
-    "download": "https://github.com/esimakin/twbs-pagination/zipball/master",
-    "bugs": "https://github.com/esimakin/twbs-pagination/issues"
+    "homepage": "https://github.com/josecebe/twbs-pagination",
+    "demo": "http://josecebe.github.io/twbs-pagination/",
+    "download": "https://github.com/josecebe/twbs-pagination/zipball/master",
+    "bugs": "https://github.com/josecebe/twbs-pagination/issues"
 }

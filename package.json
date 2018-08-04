@@ -2,7 +2,7 @@
     "name": "twbs-pagination",
     "nativeName": "jQuery Bootstrap Pagination",
     "version": "1.4.2",
-    "homepage": "https://github.com/esimakin/twbs-pagination",
+    "homepage": "https://github.com/josecebe/twbs-pagination",
     "author": "Eugene Simakin <john-24@list.ru>",
     "description": "jQuery simple pagination plugin for bootstrap-style webpages",
     "main": "jquery.twbsPagination",
@@ -18,7 +18,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/esimakin/twbs-pagination.git"
+        "url": "git://github.com/josecebe/twbs-pagination.git"
     },
     "keywords": [
         "pagination",
