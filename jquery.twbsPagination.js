@@ -161,8 +161,8 @@
 
         buildItem: function (type, page) {
             var $itemContainer = $('<li></li>'),
-                $itemContent = $('<a></a>'),
-                itemText = this.options[type] ? this.makeText(this.options[type], page) : page;
+                $itemContent = $('<a></a>');
+            var itemText = this.options['itemTexts'] ? this.options['itemTexts'](type, page) : type;
 
             $itemContainer.addClass(this.options[type + 'Class']);
             $itemContainer.data('page', page);
@@ -338,6 +338,20 @@
         prev: 'Previous',
         next: 'Next',
         last: 'Last',
+        itemTexts: function (type, page) {
+            switch (type) {
+            case "first":
+                return "&lt;&lt;";
+            case "prev":
+                return "&lt;";
+            case "next":
+                return "&gt;";
+            case "last":
+                return "&gt;&gt;";
+            case "page":
+                return page;
+            }
+        },
         loop: false,
         beforePageClick: null,
         onPageClick: null,
