@@ -17,6 +17,7 @@ $('#pagination-demo').twbsPagination({
   }
 });
 ```
+if no of Pages is only 1 then variable 'totalPages' would be '1' & variable 'visiblePages' would be '2'.
 
 ## Contributing
 For development use grunt build to make minified file.
